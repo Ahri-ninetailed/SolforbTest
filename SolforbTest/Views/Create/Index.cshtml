@@ -1,6 +1,9 @@
 ﻿@model Order
+@inject Database.SolforbDbContext DbContext
 @{
     ViewData["Title"] = "Создать";
+    ViewBag.Providers = await DbContext.GetProvidersAsync();
+
 }
 <style>
     .form-text {

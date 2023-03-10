@@ -16,13 +16,11 @@ namespace SolforbTest.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            ViewBag.Providers = await solforbDbContext.GetProvidersAsync();
             return View(new Order() { OrderItems = new List<OrderItem>() { new OrderItem() } });
         }
         [HttpPost]
         public async Task<IActionResult> Index(Order order)
         {
-            ViewBag.Providers = await solforbDbContext.GetProvidersAsync();
             if (!isValidate(order))
             {
                 Console.WriteLine("TESTLSJDJTF:S:D");
