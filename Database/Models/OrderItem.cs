@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Database.Models
@@ -8,9 +9,11 @@ namespace Database.Models
         public int Id { get; set; }
         public int OrderId { get; set; }
         public Order Order { get; set; }
+        [Required]
         public string Name { get; set; }
         [Column(TypeName = "decimal(18, 3)")]
         public decimal Quantity { get; set; }
+        [Required]
         public string Unit { get; set; }
     }
 }

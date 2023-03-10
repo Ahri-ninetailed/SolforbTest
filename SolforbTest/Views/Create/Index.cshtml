@@ -2,6 +2,11 @@
 @{
     ViewData["Title"] = "Создать";
 }
+<style>
+    .form-text {
+        color: red;
+    }
+</style>
 
 <div class="row">
     <form asp-controller="Create" asp-action="Index" method="post">
@@ -18,7 +23,7 @@
         <div class="mb-3">
             <label class="form-label">Number</label>
             <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" asp-for="Number">
-            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            <div id="emailHelp" class="form-text">@ViewBag.NumberLabel</div>
         </div>
         <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Date</label>
@@ -31,16 +36,17 @@
                 <div class="col-3 mb-3">
                     <label for="exampleInputEmail1" class="form-label">Name</label>
                     <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" asp-for=@Model.OrderItems[i].Name>
-                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                    <div id="emailHelp" class="form-text">@ViewData[$"NameLabel{i}"]</div>
                 </div>
                 <div class="col-3 mb-3">
                     <label for="exampleInputPassword1" class="form-label">Quantity</label>
-                    <input type="number" step="any" class="form-control" id="exampleInputPassword1" asp-for="@Model.OrderItems[i].Quantity">
+                    <input type="number" step="any" value="1" class="form-control" id="exampleInputPassword1" asp-for="@Model.OrderItems[i].Quantity">
+                    <div id="emailHelp" class="form-text">@ViewData[$"QuantityLabel{i}"]</div>
                 </div>
                 <div class="col-3 mb-3">
                     <label for="exampleInputEmail1" class="form-label">Unit</label>
                     <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" asp-for="@Model.OrderItems[i].Unit">
-                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                    <div id="emailHelp" class="form-text">@ViewData[$"UnitLabel{i}"]</div>
                 </div>
                 <div class="col-3" style="margin-top: 32px;">
                     <a class="btn btn-danger">Удалить</a>
