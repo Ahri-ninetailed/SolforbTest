@@ -1,8 +1,33 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Главная";
+
+    DateTime firstDatePickerDate = DateTime.Now.AddMonths(-1);
+    string dayFirstDatePicker = getCorrectDayOrMonth(firstDatePickerDate.Day);
+    string monthFirstDatePicker = getCorrectDayOrMonth(firstDatePickerDate.Month);
+    string valueFirstDatePicker = $"{firstDatePickerDate.Year}-{monthFirstDatePicker}-{dayFirstDatePicker}";
+
+    DateTime secondDatePickerDate = DateTime.Now;
+    string daySecondDatePicker = getCorrectDayOrMonth(secondDatePickerDate.Day);
+    string monthSecondDatePicker = getCorrectDayOrMonth(secondDatePickerDate.Month);
+    string valueSecondDatePicker = $"{secondDatePickerDate.Year}-{monthSecondDatePicker}-{daySecondDatePicker}";
+
+    string getCorrectDayOrMonth(int dayOrMonth)
+    {
+        return dayOrMonth >= 10 ? dayOrMonth.ToString() : $"0{dayOrMonth}";
+    }
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <button 
+        type="button" 
+        class="btn btn-primary"
+    >
+        Добавить заказ
+    </button>
+    <div class="row">
+        <div class="col">
+            <input type="date" id="start" value="@valueFirstDatePicker"/>
+            <input type="date" id="end" value="@valueSecondDatePicker" />
+        </div>
+    </div>
 </div>
