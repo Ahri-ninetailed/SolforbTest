@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Database;
+using Microsoft.AspNetCore.Mvc;
 using SolforbTest.Models;
 using System.Diagnostics;
 
@@ -6,14 +7,15 @@ namespace SolforbTest.Controllers
 {
     public class CreateController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly SolforbDbContext solforbDbContext;
 
-        public CreateController(ILogger<HomeController> logger)
+        public CreateController(SolforbDbContext solforbDbContext)
         {
-            _logger = logger;
+            this.solforbDbContext = solforbDbContext;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            ViewBag.Providers = await solforbDbContext.GetProvidersAsync();
             return View();
         }
         [HttpPost]
