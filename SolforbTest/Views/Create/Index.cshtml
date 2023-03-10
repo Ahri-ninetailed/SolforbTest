@@ -1,7 +1,6 @@
 ﻿@model Order
 @{
     ViewData["Title"] = "Создать";
-
 }
 
 <div class="row">
@@ -14,10 +13,6 @@
                 {
                     <option value="@provider.Id">@provider.Name</option>
                 }
-                @*<option selected>Open this select menu</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>*@
             </select>
         </div>
         <div class="mb-3">
@@ -27,7 +22,7 @@
         </div>
         <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Date</label>
-            <input type="date" class="form-control" id="exampleInputPassword1" asp-for="Date">
+            <input type="date" class="form-control" id="exampleInputPassword1" value="@DateFormater.GetTodayDateString()" asp-for="Date">
         </div>
         <h4>Элементы заказа</h4>
         @for (int i = 0; i < Model.OrderItems.Count(); i++)
