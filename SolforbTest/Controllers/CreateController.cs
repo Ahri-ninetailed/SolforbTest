@@ -1,4 +1,5 @@
 ﻿using Database;
+using Database.Models;
 using Microsoft.AspNetCore.Mvc;
 using SolforbTest.Models;
 using System.Diagnostics;
@@ -16,12 +17,12 @@ namespace SolforbTest.Controllers
         public async Task<IActionResult> Index()
         {
             ViewBag.Providers = await solforbDbContext.GetProvidersAsync();
-            return View();
+            return View(new Order() { OrderItems = new List<OrderItem>() { new OrderItem() } });
         }
         [HttpPost]
-        public IActionResult Index(CreatePageModel model)
+        public IActionResult Index(Order order)
         {
-            return View(model);
+            return View(order);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
