@@ -47,9 +47,12 @@
                     <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" asp-for="@Model.OrderItems[i].Unit">
                     <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                 </div>
+                <div class="col-3" style="margin-top: 32px;">
+                    <a class="btn btn-danger">Удалить</a>
+                </div>
             </div>
         }
-        
+        <a class="btn btn-success">Добавить элемент</a>
         <button type="submit" value="Submit" class="btn btn-primary">Сохранить</button>
     </form>
 </div>
