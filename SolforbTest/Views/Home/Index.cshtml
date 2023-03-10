@@ -18,18 +18,28 @@
 }
 
 <div class="text-center">
-    <button 
-        type="button" 
-        class="btn btn-primary"
-    >
-        Добавить заказ
-    </button>
     <div class="row">
+        <div class="col-3">
+            <button type="button"
+                    class="btn btn-primary">
+                Добавить заказ
+            </button>
+        </div>
+        <div class="col-3">
+            <button type="button"
+                    class="btn btn-primary">
+                 Отфильтровать
+            </button>
+        </div>
+    </div>
+    <div class="row mt-3">
         <div class="col">
             <input type="date" id="firstDatePicker" value="@valueFirstDatePicker"/>
             <input type="date" id="secondDatePicker" value="@valueSecondDatePicker" />
+        </div>
+        <div class="col">
             <select size="4" multiple>
-@*                <option value="volvo">Volvo</option>
+                @*                <option value="volvo">Volvo</option>
                 <option value="saab">Saab</option>
                 <option value="opel">Opel</option>
                 <option value="audi">Audi</option>*@
