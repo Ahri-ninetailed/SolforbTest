@@ -12,10 +12,14 @@ namespace SolforbTest.Controllers
         {
             _logger = logger;
         }
-
         public IActionResult Index()
         {
             return View();
+        }
+        [HttpPost]
+        public IActionResult Index(CreatePageModel model)
+        {
+            return View(model);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
