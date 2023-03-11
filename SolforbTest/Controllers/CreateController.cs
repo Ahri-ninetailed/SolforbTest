@@ -43,6 +43,10 @@ namespace SolforbTest.Controllers
             {
                 await solforbDbContext.CreateOrderAsync(order);
             }
+            else
+            {
+                return View("ElementsOfOrder", foundOrder);
+            }
             var orderItems = order.OrderItems;
             if (orderItems is null)
                 orderItems = new List<OrderItem>() { };
