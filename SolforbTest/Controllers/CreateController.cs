@@ -23,6 +23,7 @@ namespace SolforbTest.Controllers
         public async Task<IActionResult> Order(int id)
         {
             var order = await solforbDbContext.GetOrderByIdAsync(id);
+
             return View("ElementsOfOrder", order);
         }
         [Route("/Order")]
@@ -47,10 +48,36 @@ namespace SolforbTest.Controllers
             order.OrderItems = orderItems;
             return View("ElementsOfOrder", order);
         }
+        [Route("Order/{orderId}/Item")]
+        [HttpPost]
+        public async Task<IActionResult> Item(int orderId, OrderItem orderItem)
+        {
+            var order = await solforbDbContext.GetOrderByIdAsync(orderId);
+            ViewBag.OrderId = orderId;
+            if (orderItem.Name is null && orderItem.Unit is null && orderItem.Quantity == 0)
+            {
+                return View("Item");
+            }
+           
+            if (!isOrderItemValidate(orderItem))
+            {
+                fillOrderItemViewOfValidationErrors(orderItem);
+
+                return View("Item");
+            }
+            else
+            {
+                orderItem.OrderId = orderId;
+                await solforbDbContext.CreateOrderItemAsync(orderItem);
+                order.OrderItems.Add(orderItem);
+                await solforbDbContext.SaveChangesAsync();
+            }
+            return Redirect($"~/Order/{orderId}");
+        }
         [HttpPost]
         public async Task<IActionResult> Save(Order order, int providerId, string number)
         {
-            var orderItems = order.OrderItems;
+            /*var orderItems = order.OrderItems;
             order = await solforbDbContext.GetOrderByProviderAndNumberAsync(providerId, number);
             if (!isOrderItemsValidate(orderItems))
             {
@@ -63,7 +90,7 @@ namespace SolforbTest.Controllers
                 item.OrderId = order.Id;
                 await solforbDbContext.CreateOrderItemAsync(item);
             }
-            await solforbDbContext.UpdateOrderAsync(order);
+            await solforbDbContext.UpdateOrderAsync(order);*/
             return View("Views/Home/Index.cshtml");
         }
         [HttpPost]
@@ -93,27 +120,20 @@ namespace SolforbTest.Controllers
             return (order.Number is null ? false : true);
 
         }
-        private void fillOrderItemsViewOfValidationErrors(IEnumerable<OrderItem> items)
+        private void fillOrderItemViewOfValidationErrors(OrderItem item)
         {
             string errorMsg = "Это поле обязательно к заполнению.";
-            var listOfItems = items.ToList();
-            for (int i = 0; i < listOfItems.Count(); i++)
-            {
-                if (listOfItems[i].Unit is null)
-                    ViewData[$"UnitError{i}"] = errorMsg;
-                if (listOfItems[i].Name is null)
-                    ViewData[$"NameError{i}"] = errorMsg;
-                if (listOfItems[i].Quantity <= 0)
-                    ViewData[$"QuantityError{i}"] = errorMsg;
-            }
+            if (item.Unit is null)
+                ViewData[$"UnitError"] = errorMsg;
+            if (item.Name is null)
+                ViewData[$"NameError"] = errorMsg;
+            if (item.Quantity <= 0)
+                ViewData[$"QuantityError"] = errorMsg;
         }
-        private bool isOrderItemsValidate(IEnumerable<OrderItem> items)
+        private bool isOrderItemValidate(OrderItem item)
         {
-            foreach (var item in items)
-            {
-                if (item.Name is null || item.Unit is null || item.Quantity <= 0)
-                    return false;
-            }
+            if (item.Name is null || item.Unit is null || item.Quantity <= 0)
+                 return false;
             return true;
         }
     }

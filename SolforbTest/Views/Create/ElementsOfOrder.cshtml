@@ -28,7 +28,7 @@
     </div>
     <div class="row">
         <h4>Элементы заказа</h4>
-        <form id="ItemsForm" asp-action="Save" asp-controller="Create" asp-route-providerId="@Model.ProviderId" asp-route-number="@Model.Number" method="post">
+        <form id="ItemsForm" asp-action="Item" asp-route-orderId="@Model.Id" asp-controller="Create" method="post">
             <div class="elementsOfOrder">
                 @for (int i = 0; i < Model.OrderItems.Count(); i++)
                 {
@@ -48,19 +48,14 @@
                             <input type="text" class="form-control" asp-for="@Model.OrderItems[i].Unit">
                             <div class="form-text">@ViewData[$"UnitError{i}"]</div>
                         </div>
-                        @if (i > 0)
-                        {
-                            <div class="col-3" style="margin-top: 32px;">
-                                <a class="btn btn-danger">Удалить</a>
-                            </div>
-                        }
+                        <div class="col-3" style="margin-top: 32px;">
+                            <a class="btn btn-danger">Удалить</a>
+                        </div>
+                        
 
                     </div>
                 }
-            </div>
-            <button class="btn btn-success" type="submit">
-                Сохранить
-            </button>
+            </div> 
             <button id="AddItem" class="btn btn-success" type="submit">
                 Добавить элемент
             </button>
@@ -69,32 +64,5 @@
 </div>
 <script src="~/lib/jquery/jquery.min.js"></script>
 <script>
-    function submitStudent() {
-        var data = $("#ItemsForm").serialize();
 
-        let id= @Model.ProviderId.ToString();
-        id = "?providerId=" + id + "&number=" + @Model.Number.ToString() + "&AddItem=1&";
-        let url = "/Create/Order"+id 
-        alert(url)
-        let resp = $.ajax({
-            type: 'POST',
-            url: url,
-            contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // when we use .serialize() this generates the data in query string format. this needs the default contentType (default content type is: contentType: 'application/x-www-form-urlencoded; charset=UTF-8') so it is optional, you can remove it
-            data: data,
-            success: function (result) {
-                alert('Successfully received Data ');
-                console.log(result);
-            },
-            error: function () {
-                alert('Failed to receive the Data');
-                console.log('Failed ');
-            }
-        })
-
-
-    }
-    $("#AddItem").click(function (event) {
-        event.preventDefault();
-        submitStudent();
-    });
 </script>
