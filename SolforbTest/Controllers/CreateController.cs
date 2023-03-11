@@ -20,20 +20,25 @@ namespace SolforbTest.Controllers
             return View(new Order());
         }
         [HttpPost]
-        public async Task<IActionResult> Order(Order order, int providerId, string number, int? countElements = 1)
+        public async Task<IActionResult> Order(Order order, int providerId, string number)
         {
-            
+            //Валидация страницы создания заказа
             if (!isOrderValidate(order))
             {
                 fillOrderViewOfValidationErrors(order);
                 return View("Index", order);
             }
-            if (await solforbDbContext.GetOrderByProviderAndNumberAsync(providerId, number) is null)
+            //Создать заказ, если его еще нет
+            var foundOrder = await solforbDbContext.GetOrderByProviderAndNumberAsync(providerId, number);
+            if (foundOrder is null)
+            {
                 await solforbDbContext.CreateOrderAsync(order);
-
-            if (order.OrderItems is null)
-                order.OrderItems = new List<OrderItem>() { new OrderItem() };
-            return View("ElementsOfOrder", await solforbDbContext.GetOrderByProviderAndNumberAsync(providerId, number));
+            }
+            var orderItems = order.OrderItems;
+            if (orderItems is null || orderItems?.Count() == 0)
+                orderItems = new List<OrderItem>() { new OrderItem() };
+            order.OrderItems = orderItems;
+            return View("ElementsOfOrder", order);
         }
         [HttpPost]
         public async Task<IActionResult> Save(Order order, int providerId, string number)
@@ -54,7 +59,15 @@ namespace SolforbTest.Controllers
             await solforbDbContext.UpdateOrderAsync(order);
             return View("Views/Home/Index.cshtml");
         }
-
+        [HttpPost]
+        public async Task<IActionResult> AddItem(int Id, Order order)
+        {
+            var orderItems = order.OrderItems.ToList();
+            order = await solforbDbContext.GetOrderByIdAsync(Id);
+            order.OrderItems = orderItems;
+            order.OrderItems.Add(new OrderItem());
+            return View("ElementsOfOrder", order);
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

@@ -26,7 +26,11 @@ namespace Database
         }
         public static async Task<Order> GetOrderByProviderAndNumberAsync(this SolforbDbContext solforbDbContext, int providerId, string orderNumber)
         {
-            return await solforbDbContext.Orders.FirstOrDefaultAsync(o => o.ProviderId == providerId && o.Number == orderNumber);
+            return await solforbDbContext.Orders.Include(o => o.OrderItems).FirstOrDefaultAsync(o => o.ProviderId == providerId && o.Number == orderNumber);
+        }
+        public static async Task<Order> GetOrderByIdAsync(this SolforbDbContext solforbDbContext, int Id)
+        {
+            return await solforbDbContext.Orders.Include(o => o.OrderItems).FirstOrDefaultAsync(o => o.Id == Id);
         }
         public static async Task UpdateOrderAsync(this SolforbDbContext solforbDbContext, Order order)
         {
