@@ -1,6 +1,7 @@
 ﻿using Database;
 using Database.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SolforbTest.Models;
 using System.Diagnostics;
 
@@ -16,18 +17,23 @@ namespace SolforbTest.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            return View(new Order() { OrderItems = new List<OrderItem>() { new OrderItem() } });
+            return View(new Order());
         }
         [HttpPost]
-        public async Task<IActionResult> Index(Order order)
+        public async Task<IActionResult> Order(Order order, int providerId, string number)
         {
-            if (!isValidate(order))
+            
+            if (!isOrderValidate(order))
             {
-                Console.WriteLine("TESTLSJDJTF:S:D");
-                fillTheViewDataOfValidationErrors(order);
+                fillOrderViewOfValidationErrors(order);
+                return View("Index", order);
             }
-            return View(order);
+            await solforbDbContext.CreateOrderAsync(order);
+            if (order.OrderItems is null)
+                order.OrderItems = new List<OrderItem>() { new OrderItem() };
+            return View("ElementsOfOrder", await solforbDbContext.GetOrderByProviderAndNumberAsync(providerId, number));
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -36,29 +42,16 @@ namespace SolforbTest.Controllers
         }
         
 
-        private void fillTheViewDataOfValidationErrors(Order order)
+        private void fillOrderViewOfValidationErrors(Order order)
         {
             string errorMsg = "Это поле обязательно к заполнению.";
             if (order.Number is null)
                 ViewBag.NumberLabel = errorMsg;
-            for (int i = 0; i < order.OrderItems.Count(); i++)
-            {
-                if (order.OrderItems[i].Name is null)
-                    ViewData[$"NameLabel{i}"] = errorMsg;
-                if (order.OrderItems[i].Unit is null)
-                    ViewData[$"UnitLabel{i}"] = errorMsg;
-                if (order.OrderItems[i].Quantity == 0)
-                    ViewData[$"QuantityLabel{i}"] = errorMsg;
-            }
         }
-        private bool isValidate(Order order)
+        private bool isOrderValidate(Order order)
         {
-            if (order.Number is null)
-                return false;
-            foreach (var orderItem in order.OrderItems)
-                if (orderItem.Name is null || orderItem.Unit is null || orderItem.Quantity == 0)
-                    return false;
-            return true;
+            return (order.Number is null ? false : true);
+
         }
     }
 }

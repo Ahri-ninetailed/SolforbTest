@@ -1,0 +1,53 @@
+﻿@model Order
+@inject Database.SolforbDbContext DbContext
+@{
+    ViewData["Title"] = "Заказ";
+    Provider provider = await DbContext.GetProviderByIdAsync(Model.ProviderId);
+}
+
+<div class="row">
+    <h4>Заказ:</h4>
+    <div class="row">
+        <div class="col-3">
+            Id: @Model.Id
+        </div>
+        <div class="col-3">
+            Prodiver: @provider.Name
+        </div>
+        <div class="col-3">
+            Number: @Model.Number
+        </div>
+        <div class="col-3">
+            Date: @Model.Date
+
+        </div>
+    </div>
+    <div class="row">
+        <h4>Элементы заказа</h4>
+        <div class="elementsOfOrder">
+            @for (int i = 0; i < Model.OrderItems.Count(); i++)
+            {
+                <div class="elementOrder ms-5 row">
+                    <div class="col-3 mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" asp-for=@Model.OrderItems[i].Name>
+                        <div id="emailHelp" class="form-text">@ViewData[$"NameLabel{i}"]</div>
+                    </div>
+                    <div class="col-3 mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Quantity</label>
+                        <input type="number" step="any" value="1" class="form-control" id="exampleInputPassword1" asp-for="@Model.OrderItems[i].Quantity">
+                        <div id="emailHelp" class="form-text">@ViewData[$"QuantityLabel{i}"]</div>
+                    </div>
+                    <div class="col-3 mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Unit</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" asp-for="@Model.OrderItems[i].Unit">
+                        <div id="emailHelp" class="form-text">@ViewData[$"UnitLabel{i}"]</div>
+                    </div>
+                    <div class="col-3" style="margin-top: 32px;">
+                        <a class="btn btn-danger">Удалить</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

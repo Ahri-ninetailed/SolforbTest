@@ -12,11 +12,12 @@
 </style>
 
 <div class="row">
-    <form asp-controller="Create" asp-action="Index" method="post">
-        <h1>Заказ</h1>
+    <h1>Заказ</h1>
+    <form asp-action="Order" asp-controller="Create" asp-route-providerId="@Model.ProviderId" asp-route-number="@Model.Number" method="post" id="orderForm">
+        
         <div class="mb-3">
             <p>Поставщик:</p>
-            <select class="form-select" aria-label="Default select example" asp-for="Provider.Name">
+            <select class="form-select" aria-label="Default select example" asp-for="ProviderId">
                 @foreach (Provider provider in ViewBag.Providers)
                 {
                     <option value="@provider.Id">@provider.Name</option>
@@ -25,38 +26,21 @@
         </div>
         <div class="mb-3">
             <label class="form-label">Number</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" asp-for="Number">
-            <div id="emailHelp" class="form-text">@ViewBag.NumberLabel</div>
+            <input type="text" class="form-control" asp-for="Number">
+            <div class="form-text">@ViewBag.NumberLabel</div>
         </div>
         <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Date</label>
-            <input type="date" class="form-control" id="exampleInputPassword1" value="@DateFormater.GetTodayDateString()" asp-for="Date">
+            <label class="form-label">Date</label>
+            <input type="date" class="form-control" value="@DateFormater.GetTodayDateString()" asp-for="Date">
         </div>
-        <h4>Элементы заказа</h4>
-        @for (int i = 0; i < Model.OrderItems.Count(); i++)
-        {
-            <div class="ms-5 row">
-                <div class="col-3 mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" asp-for=@Model.OrderItems[i].Name>
-                    <div id="emailHelp" class="form-text">@ViewData[$"NameLabel{i}"]</div>
-                </div>
-                <div class="col-3 mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Quantity</label>
-                    <input type="number" step="any" value="1" class="form-control" id="exampleInputPassword1" asp-for="@Model.OrderItems[i].Quantity">
-                    <div id="emailHelp" class="form-text">@ViewData[$"QuantityLabel{i}"]</div>
-                </div>
-                <div class="col-3 mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Unit</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" asp-for="@Model.OrderItems[i].Unit">
-                    <div id="emailHelp" class="form-text">@ViewData[$"UnitLabel{i}"]</div>
-                </div>
-                <div class="col-3" style="margin-top: 32px;">
-                    <a class="btn btn-danger">Удалить</a>
-                </div>
-            </div>
-        }
-        <a class="btn btn-success">Добавить элемент</a>
-        <button type="submit" value="Submit" class="btn btn-primary">Сохранить</button>
+        <button 
+            class="btn btn-success"
+            id="addElementButton">
+                Добавить элементы
+        </button>
     </form>
 </div>
+<script src="~/lib/jquery/jquery.min.js"></script>
+<script>
+
+</script>
