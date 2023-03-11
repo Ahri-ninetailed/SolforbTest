@@ -49,9 +49,9 @@
                             <div class="form-text">@ViewData[$"UnitError{i}"]</div>
                         </div>
                         <div class="col-3" style="margin-top: 32px;">
-                            <a class="btn btn-danger">Удалить</a>
+                            <a class="btn btn-danger deleteItem" id="@Model.OrderItems[i].Id">Удалить</a>
                         </div>
-                        
+
 
                     </div>
                 }
@@ -64,5 +64,20 @@
 </div>
 <script src="~/lib/jquery/jquery.min.js"></script>
 <script>
+    
+    $( ".deleteItem" ).click(function(event) {
 
+        event.preventDefault();
+        let itemId = event.target.id;
+        $.ajax({
+            url: '/Order/DeleteItem/' + itemId,
+            type: 'DELETE',
+            success: function(result) {
+                location.reload(true);
+            },
+            error: function (result) {
+                console.log(result);
+            }
+        });
+    });
 </script>

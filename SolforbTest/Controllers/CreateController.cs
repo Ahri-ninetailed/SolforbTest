@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SolforbTest.Models;
 using System.Diagnostics;
+using System.Reflection.Metadata.Ecma335;
 
 namespace SolforbTest.Controllers
 {
@@ -73,6 +74,20 @@ namespace SolforbTest.Controllers
                 await solforbDbContext.SaveChangesAsync();
             }
             return Redirect($"~/Order/{orderId}");
+        }
+        [Route("Order/DeleteItem/{itemId}")]
+        [HttpDelete]
+        public async Task<ObjectResult> DeleteItem(int itemId)
+        {
+            try
+            {
+                await solforbDbContext.DeleteOderItemByIdAsync(itemId);
+                return Ok(null);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [HttpPost]
         public async Task<IActionResult> Save(Order order, int providerId, string number)

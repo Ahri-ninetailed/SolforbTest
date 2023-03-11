@@ -44,6 +44,17 @@ namespace Database
             await solforbDbContext.OrderItems.AddAsync(orderItem);
             await solforbDbContext.SaveChangesAsync();
         }
+        public static async Task<OrderItem> GetOrderItemByIdAsync(this SolforbDbContext solforbDbContext, int id)
+        {
+            return await solforbDbContext.OrderItems.FirstOrDefaultAsync(o => o.Id == id);
+        }
+        public static async Task DeleteOderItemByIdAsync(this SolforbDbContext solforbDbContext, int id)
+        {
+            var orderItem = await solforbDbContext.GetOrderItemByIdAsync(id);
+            var order = await solforbDbContext.GetOrderByIdAsync(orderItem.OrderId);
+            order.OrderItems.Remove(orderItem);
+            await solforbDbContext.UpdateOrderAsync(order);
+        }
         #endregion
     }
 }
