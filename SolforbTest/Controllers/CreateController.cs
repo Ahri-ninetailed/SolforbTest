@@ -93,15 +93,7 @@ namespace SolforbTest.Controllers
             await solforbDbContext.UpdateOrderAsync(order);*/
             return View("Views/Home/Index.cshtml");
         }
-        [HttpPost]
-        public async Task<IActionResult> AddItem(int Id, Order order)
-        {
-            var orderItems = order.OrderItems.ToList();
-            order = await solforbDbContext.GetOrderByIdAsync(Id);
-            order.OrderItems = orderItems;
-            order.OrderItems.Add(new OrderItem());
-            return View("ElementsOfOrder", order);
-        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
