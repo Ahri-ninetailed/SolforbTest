@@ -1,6 +1,7 @@
-﻿@{
+﻿@inject Database.SolforbDbContext DbContext
+@{
     ViewData["Title"] = "Главная";
-
+    var orders = await DbContext.GetOrdersAsync();
 }
 
 <div class="text-center">
@@ -34,30 +35,30 @@
         <table class="table table-hover">
             <thead>
                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">First</th>
-                  <th scope="col">Last</th>
-                  <th scope="col">Handle</th>
+                  <th scope="col">Id</th>
+                  <th scope="col">Number</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">ProviderId</th>
+                  <th scope="col">Count of items</th>
                </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>123</td>
-                </tr>
-                <tr onclick="location.href = '@Url.Action("Index", "Create")'">
+                @foreach (var order in orders)
+                {
+                    <tr>
+                        <th scope="row">@order.Id</th>
+                        <td>@order.Number</td>
+                        <td>@order.Date</td>
+                        <td>@order.ProviderId</td>
+                        <td>@order.OrderItems.Count()</td>
+                    </tr>   
+                }
+@*                <tr onclick="location.href = '@Url.Action("Index", "Create")'">
                     <th scope="row">2</th>
                     <td>Jacob</td>
                     <td>Thornton</td>
                     <td>123</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td colspan="2">Larry the Bird</td>
-                    <td>123</td>
-                </tr>
+                </tr>*@
             </tbody>
         </table>
     </div>

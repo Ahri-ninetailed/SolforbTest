@@ -37,6 +37,10 @@ namespace Database
             solforbDbContext.Orders.Update(order);
             await solforbDbContext.SaveChangesAsync();
         }
+        public static async Task<IEnumerable<Order>> GetOrdersAsync(this SolforbDbContext solforbDbContext)
+        {
+            return await solforbDbContext.Orders.Include(o => o.OrderItems).ToArrayAsync();
+        }
         #endregion
         #region Table OrderItems
         public static async Task CreateOrderItemAsync(this SolforbDbContext solforbDbContext, OrderItem orderItem)
