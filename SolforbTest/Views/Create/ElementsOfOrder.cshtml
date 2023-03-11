@@ -59,12 +59,18 @@
             <button id="AddItem" class="btn btn-success" type="submit">
                 Добавить элемент
             </button>
+            <button id="saveButton" class="btn btn-warning">
+                Сохранить изменения элемеентов
+            </button>
         </form>
     </div>
 </div>
 <script src="~/lib/jquery/jquery.min.js"></script>
 <script>
-    
+    $("#saveButton").click(function (event) {
+        event.preventDefault();
+
+    }
     $( ".deleteItem" ).click(function(event) {
 
         event.preventDefault();
