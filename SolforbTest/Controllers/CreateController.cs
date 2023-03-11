@@ -19,8 +19,15 @@ namespace SolforbTest.Controllers
         {
             return View(new Order());
         }
+        [Route("/Order/{id}")]
+        public async Task<IActionResult> Order(int id)
+        {
+            var order = await solforbDbContext.GetOrderByIdAsync(id);
+            return View("ElementsOfOrder", order);
+        }
+        [Route("/Order")]
         [HttpPost]
-        public async Task<IActionResult> Order(Order order, int providerId, string number)
+        public async Task<IActionResult> CreateOrder(Order order)
         {
             //Валидация страницы создания заказа
             if (!isOrderValidate(order))
@@ -29,14 +36,14 @@ namespace SolforbTest.Controllers
                 return View("Index", order);
             }
             //Создать заказ, если его еще нет
-            var foundOrder = await solforbDbContext.GetOrderByProviderAndNumberAsync(providerId, number);
+            var foundOrder = await solforbDbContext.GetOrderByProviderAndNumberAsync(order.ProviderId, order.Number);
             if (foundOrder is null)
             {
                 await solforbDbContext.CreateOrderAsync(order);
             }
             var orderItems = order.OrderItems;
-            if (orderItems is null || orderItems?.Count() == 0)
-                orderItems = new List<OrderItem>() { new OrderItem() };
+            if (orderItems is null)
+                orderItems = new List<OrderItem>() { };
             order.OrderItems = orderItems;
             return View("ElementsOfOrder", order);
         }

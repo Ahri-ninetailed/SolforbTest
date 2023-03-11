@@ -9,7 +9,7 @@
         color: red;
     }
 </style>
-<div class="row">
+<div class="row" id="itemsDiv">
     <h4>Заказ:</h4>
     <div class="row">
         <div class="col-3">
@@ -72,11 +72,11 @@
     function submitStudent() {
         var data = $("#ItemsForm").serialize();
 
-        let id= @Model.Id.ToString();
-        id = "?Id=" + id + "&";
-        let url = "/Create/AddItem"+id 
+        let id= @Model.ProviderId.ToString();
+        id = "?providerId=" + id + "&number=" + @Model.Number.ToString() + "&AddItem=1&";
+        let url = "/Create/Order"+id 
         alert(url)
-        $.ajax({
+        let resp = $.ajax({
             type: 'POST',
             url: url,
             contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // when we use .serialize() this generates the data in query string format. this needs the default contentType (default content type is: contentType: 'application/x-www-form-urlencoded; charset=UTF-8') so it is optional, you can remove it
@@ -90,6 +90,8 @@
                 console.log('Failed ');
             }
         })
+
+
     }
     $("#AddItem").click(function (event) {
         event.preventDefault();
