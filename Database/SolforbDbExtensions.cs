@@ -28,6 +28,18 @@ namespace Database
         {
             return await solforbDbContext.Orders.FirstOrDefaultAsync(o => o.ProviderId == providerId && o.Number == orderNumber);
         }
+        public static async Task UpdateOrderAsync(this SolforbDbContext solforbDbContext, Order order)
+        {
+            solforbDbContext.Orders.Update(order);
+            await solforbDbContext.SaveChangesAsync();
+        }
+        #endregion
+        #region Table OrderItems
+        public static async Task CreateOrderItemAsync(this SolforbDbContext solforbDbContext, OrderItem orderItem)
+        {
+            await solforbDbContext.OrderItems.AddAsync(orderItem);
+            await solforbDbContext.SaveChangesAsync();
+        }
         #endregion
     }
 }
