@@ -77,6 +77,7 @@ namespace SolforbTest.Controllers
             }
             return Redirect($"~/Order/{orderItem.OrderId}");
         }
+
         [Route("Order/DeleteItem/{itemId}")]
         [HttpDelete]
         public async Task<ObjectResult> DeleteItem(int itemId)
@@ -87,6 +88,20 @@ namespace SolforbTest.Controllers
                 return Ok(null);
             }
             catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [Route("Order/DeleteOrder/{orderId}")]
+        [HttpDelete]
+        public async Task<ObjectResult> DeleteOrder(int orderId)
+        {
+            try
+            {
+                await solforbDbContext.DeleteOrderByIdAsync(orderId);
+                return Ok(null);
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

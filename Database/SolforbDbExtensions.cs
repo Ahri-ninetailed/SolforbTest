@@ -19,6 +19,12 @@ namespace Database
         #endregion
 
         #region Table Orders
+        public static async Task DeleteOrderByIdAsync(this SolforbDbContext solforbDbContext, int id)
+        {
+            Order order = await solforbDbContext.GetOrderByIdAsync(id);
+            solforbDbContext.Orders.Remove(order);
+            await solforbDbContext.SaveChangesAsync();
+        }
         public static async Task CreateOrderAsync(this SolforbDbContext solforbDbContext, Order order)
         {
             await solforbDbContext.Orders.AddAsync(order);
