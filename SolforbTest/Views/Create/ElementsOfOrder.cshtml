@@ -35,12 +35,12 @@
                     <div class="elementOrder ms-5 row">
                         <div class="col-3 mb-3">
                             <label class="form-label">Name</label>
-                            <input type="text" class="form-control" value="@Guid.NewGuid()" asp-for=@Model.OrderItems[i].Name>
+                            <input type="text" class="form-control" asp-for=@Model.OrderItems[i].Name>
                             <div class="form-text">@ViewData[$"NameError{i}"]</div>
                         </div>
                         <div class="col-3 mb-3">
                             <label class="form-label">Quantity</label>
-                            <input type="number" step="any" value="1" class="form-control" asp-for="@Model.OrderItems[i].Quantity">
+                            <input type="number" step="any" class="form-control" asp-for="@Model.OrderItems[i].Quantity">
                             <div class="form-text">@ViewData[$"QuantityError{i}"]</div>
                         </div>
                         <div class="col-3 mb-3">

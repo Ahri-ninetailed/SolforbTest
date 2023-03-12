@@ -61,20 +61,15 @@ namespace SolforbTest.Controllers
         {
             var order = await solforbDbContext.GetOrderByIdAsync(orderId);
             ViewBag.OrderId = orderId;
-            if (orderItem.Name is null && orderItem.Unit is null && orderItem.Quantity == 0)
-            {
-                return View("Item");
-            }
+            orderItem.OrderNumber= order.Number;
            
-            if (!isOrderItemValidate(orderItem))
+            if (!isOrderItemValidate(orderItem) || orderItem.Name == order.Number)
             {
                 fillOrderItemViewOfValidationErrors(orderItem);
-
                 return View("Item");
             }
             else
             {
-                orderItem.OrderNumber = order.Number;
                 orderItem.OrderId = orderId;
                 await solforbDbContext.CreateOrderItemAsync(orderItem);
                 order.OrderItems.Add(orderItem);
@@ -141,6 +136,8 @@ namespace SolforbTest.Controllers
                 ViewData[$"UnitError"] = errorMsg;
             if (item.Name is null)
                 ViewData[$"NameError"] = errorMsg;
+            if (item.Name == item.OrderNumber)
+                ViewData[$"NameError"] = "Название позиции и номер заказа должны быть разными";
             if (item.Quantity <= 0)
                 ViewData[$"QuantityError"] = errorMsg;
         }

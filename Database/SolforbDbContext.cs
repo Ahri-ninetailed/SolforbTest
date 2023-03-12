@@ -30,8 +30,6 @@ namespace Database
 
             modelBuilder.Entity<OrderItem>(entity =>
             {
-                entity.HasIndex(ot => new { ot.Name, ot.OrderNumber })
-                .IsUnique(true);
 
                 entity
                 .HasCheckConstraint("CK_Properties_Name_OrderNumber", "[Name] != [OrderNumber]");

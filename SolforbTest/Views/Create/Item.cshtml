@@ -2,6 +2,8 @@
 @inject Database.SolforbDbContext DbContext
 @{
     ViewData["Title"] = "Создать элемент заказа";
+    ViewBag.Order = await DbContext.GetOrderByIdAsync((int)ViewBag.OrderId);
+    ViewBag.Provider = await DbContext.GetProviderByIdAsync((int)ViewBag.Order.ProviderId);
 }
 <style>
     .form-text {
@@ -10,6 +12,21 @@
 </style>
 <div class="row">
     <div class="row">
+        <h4>Заказ:</h4>
+        <div class="col-3">
+            Id: @ViewBag.Order.Id
+        </div>
+        <div class="col-3">
+            Prodiver: @ViewBag.Provider.Name
+        </div>
+        <div class="col-3">
+            Number: @ViewBag.Order.Number
+        </div>
+        <div class="col-3">
+            Date: @ViewBag.Order.Date
+        </div>
+    </div>
+    <div class="row">
         <h4>Элементы заказа</h4>
         <form id="ItemsForm" asp-action="Item" asp-route-orderId="@ViewBag.OrderId" asp-controller="Create" method="post">
             
@@ -17,12 +34,12 @@
             <div class="elementOrder ms-5 row">
                 <div class="col-3 mb-3">
                     <label class="form-label">Name</label>
-                    <input type="text" class="form-control" value="@Guid.NewGuid()" asp-for=@Model.Name>
+                    <input type="text" class="form-control" asp-for=@Model.Name>
                     <div class="form-text">@ViewData[$"NameError"]</div>
                 </div>
                 <div class="col-3 mb-3">
                     <label class="form-label">Quantity</label>
-                    <input type="number" step="any" value="1" class="form-control" asp-for="@Model.Quantity">
+                    <input type="number" step="any" class="form-control" asp-for="@Model.Quantity">
                     <div class="form-text">@ViewData[$"QuantityError"]</div>
                 </div>
                 <div class="col-3 mb-3">
