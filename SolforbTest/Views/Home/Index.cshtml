@@ -99,6 +99,7 @@
                   <th scope="col">Id</th>
                   <th scope="col">Number</th>
                   <th scope="col">Date</th>
+                  <th scope="col">Provider Name</th>
                   <th scope="col">ProviderId</th>
                   <th scope="col">Count of items</th>
                </tr>
@@ -110,6 +111,7 @@
                         <th scope="row">@order.Id</th>
                         <td>@order.Number</td>
                         <td>@order.Date</td>
+                        <td>@((await SolforbDbExtensions.GetProviderByIdAsync(DbContext, order.ProviderId)).Name)</td>
                         <td>@order.ProviderId</td>
                         <td>@order.OrderItems.ToArray().Length</td>
                     </tr>   
