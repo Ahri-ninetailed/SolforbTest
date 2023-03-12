@@ -2,7 +2,6 @@
 @inject Database.SolforbDbContext DbContext
 @{
     ViewData["Title"] = "Главная";
-    var orders = await DbContext.GetOrdersAsync();
     var orderNumbers = DbContext.GetDistinctOrderNumbers();
     var providersId = DbContext.GetProvidersId();
     var itemsNames = DbContext.GetDistinctItemNames();
@@ -16,80 +15,83 @@
     }
 </style>
 <div class="text-center">
-    <div class="row">
-        <div class="col-3">
-            <a class="btn btn-primary" asp-controller="Create" asp-action="Order">
-                Добавить заказ
-            </a>
+    <form asp-action="Filter" asp-controller="Home">
+        <div class="row">
+            <div class="col-3">
+                <a class="btn btn-primary" asp-controller="Create" asp-action="Order">
+                    Добавить заказ
+                </a>
+            </div>
+            <div class="col-3">
+                <button type="submit" class="btn btn-primary">
+                        Отфильтровать
+                </button>
+            </div>
         </div>
-        <div class="col-3">
-            <button type="button" class="btn btn-primary">
-                 Отфильтровать
-            </button>
+        <div class="row mt-3">
+            <div class="col col-sm-4 col-md-3 col-lg-2">
+                <p>С</p>
+                <input type="date" id="firstDatePicker" value="@DateFormater.GetMonthAgoDateString()" asp-for="FirstDate"/>
+                <p>По</p>
+                <input type="date" id="secondDatePicker" value="@DateFormater.GetTodayDateString()" asp-for="SecondDate"/>
+            </div>
+            <div class="col col-sm-4 col-md-3 col-lg-2">
+                <p>Order Number</p>
+                <select class="form-select" aria-label="size 5 multiple select example" size="4" multiple asp-for="OrdersNumbers">
+                    @foreach (var orderNumber in orderNumbers)
+                    {
+                        <option value="@orderNumber">@orderNumber</option>
+                    }
+                </select>
+            </div>
+            <div class="col col-sm-4 col-md-3 col-lg-1">
+                <p>ProviderId</p>
+                <select class="form-select" aria-label="size 5 multiple select example" size="4" multiple asp-for="ProvidersId">
+                    @foreach (var providerId in providersId)
+                    {
+                        <option value="@providerId">@providerId</option>
+                    }
+                </select>
+            </div>
+            <div class="col col-sm-4 col-md-3 col-lg-2">
+                <p>Item Name</p>
+                <select class="form-select" aria-label="size 5 multiple select example" size="4" multiple asp-for="ItemsNames">
+                    @foreach (var itemsName in itemsNames)
+                    {
+                        <option value="@itemsName">@itemsName</option>
+                    }
+                </select>
+            </div>
+            <div class="col col-sm-4 col-md-3 col-lg-1">
+                <p>Item Quantity</p>
+                <select class="form-select" aria-label="size 5 multiple select example" size="4" multiple asp-for="ItemsQuantities">
+                    @foreach (var itemQuantity in itemsQuantities)
+                    {
+                        <option value="@itemQuantity">@itemQuantity</option>
+                    }
+                </select>
+            </div>
+            <div class="col col-sm-4 col-md-3 col-lg-2">
+                <p>Item Unit</p>
+                <select class="form-select" aria-label="size 5 multiple select example" size="4" multiple asp-for="ItemsUnits">
+                    @foreach (var itemsUnit in itemsUnits)
+                    {
+                        <option value="@itemsUnit">@itemsUnit</option>
+                    }
+                </select>
+            </div>
+            <div class="col col-sm-4 col-md-3 col-lg-2">
+                <p>Provider Name</p>
+                <select class="form-select" aria-label="size 5 multiple select example" size="4" multiple asp-for="ProvidersNames">
+                    @foreach (var providerName in providersNames)
+                    {
+                        <option value="@providerName">@providerName</option>
+                    }
+                </select>
+            </div>
         </div>
-    </div>
-    <div class="row mt-3">
-        <div class="col col-sm-4 col-md-3 col-lg-2">
-            <p>С</p>
-            <input type="date" id="firstDatePicker" value="@DateFormater.GetMonthAgoDateString()"/>
-            <p>По</p>
-            <input type="date" id="secondDatePicker" value="@DateFormater.GetTodayDateString()" />
-        </div>
-        <div class="col col-sm-4 col-md-3 col-lg-2">
-            <p>Order Number</p>
-            <select class="form-select" aria-label="size 5 multiple select example" size="4" multiple>
-                @foreach (var orderNumber in orderNumbers)
-                {
-                    <option value="@orderNumber">@orderNumber</option>
-                }
-            </select>
-        </div>
-        <div class="col col-sm-4 col-md-3 col-lg-1">
-            <p>ProviderId</p>
-            <select class="form-select" aria-label="size 5 multiple select example" size="4" multiple>
-                @foreach (var providerId in providersId)
-                {
-                    <option value="@providerId">@providerId</option>
-                }
-            </select>
-        </div>
-        <div class="col col-sm-4 col-md-3 col-lg-2">
-            <p>Item Name</p>
-            <select class="form-select" aria-label="size 5 multiple select example" size="4" multiple>
-                @foreach (var itemsName in itemsNames)
-                {
-                    <option value="@itemsName">@itemsName</option>
-                }
-            </select>
-        </div>
-        <div class="col col-sm-4 col-md-3 col-lg-1">
-            <p>Item Quantity</p>
-            <select class="form-select" aria-label="size 5 multiple select example" size="4" multiple>
-                @foreach (var itemQuantity in itemsQuantities)
-                {
-                    <option value="@itemQuantity">@itemQuantity</option>
-                }
-            </select>
-        </div>
-        <div class="col col-sm-4 col-md-3 col-lg-2">
-            <p>Item Unit</p>
-            <select class="form-select" aria-label="size 5 multiple select example" size="4" multiple>
-                @foreach (var itemsUnit in itemsUnits)
-                {
-                    <option value="@itemsUnit">@itemsUnit</option>
-                }
-            </select>
-        </div>
-        <div class="col col-sm-4 col-md-3 col-lg-2">
-            <p>Provider Name</p>
-            <select class="form-select" aria-label="size 5 multiple select example" size="4" multiple>
-                @foreach (var providerName in providersNames)
-                {
-                    <option value="@providerName">@providerName</option>
-                }
-            </select>
-        </div>
-    </div>
+    </form>
+
     <div class="row">
         <table class="table table-hover">
             <thead>
@@ -102,14 +104,14 @@
                </tr>
             </thead>
             <tbody>
-                @foreach (var order in orders)
+                @foreach (var order in ViewBag.Orders)
                 {
                     <tr onclick="location.href = 'Order/@order.Id'">
                         <th scope="row">@order.Id</th>
                         <td>@order.Number</td>
                         <td>@order.Date</td>
                         <td>@order.ProviderId</td>
-                        <td>@order.OrderItems.Count()</td>
+                        <td>@order.OrderItems.ToArray().Length</td>
                     </tr>   
                 }
 @*                <tr onclick="location.href = '@Url.Action("Index", "Create")'">
