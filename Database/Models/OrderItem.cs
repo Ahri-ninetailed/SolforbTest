@@ -7,6 +7,7 @@ namespace Database.Models
     public class OrderItem
     {
         public int Id { get; set; }
+        public string OrderNumber { get; set; }
         public int OrderId { get; set; }
         [Required]
         public string Name { get; set; }

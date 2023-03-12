@@ -72,6 +72,7 @@ namespace SolforbTest.Controllers
             }
             else
             {
+                orderItem.OrderNumber = order.Number;
                 orderItem.OrderId = orderId;
                 await solforbDbContext.CreateOrderItemAsync(orderItem);
                 order.OrderItems.Add(orderItem);

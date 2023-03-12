@@ -1,7 +1,6 @@
 ﻿using Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System.Security.Principal;
 
 namespace Database
 {
@@ -28,7 +27,16 @@ namespace Database
             modelBuilder.Entity<Order>()
                 .HasIndex(o => new { o.ProviderId, o.Number })
                 .IsUnique(true);
-            
+
+            modelBuilder.Entity<OrderItem>(entity =>
+            {
+                entity.HasIndex(ot => new { ot.Name, ot.OrderNumber })
+                .IsUnique(true);
+
+                entity
+                .HasCheckConstraint("CK_Properties_Name_OrderNumber", "[Name] != [OrderNumber]");
+                
+            });
         }
     }
 }
