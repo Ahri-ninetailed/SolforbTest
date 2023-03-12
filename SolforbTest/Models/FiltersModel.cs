@@ -2,5 +2,14 @@
 {
     public class FiltersModel
     {
+        public IEnumerable<string> OrdersNumbers { get; set; }
+        public IEnumerable<int> ProvidersId { get; set; }
+        public IEnumerable<string> ItemsNames { get; set; }
+        public IEnumerable<decimal> ItemsQuantities { get; set; }
+        public IEnumerable<string> ItemsUnits { get; set; }
+        public IEnumerable<string> ProvidersNames { get; set; }
+        public DateTime FirstDate { get; set; }
+        public DateTime SecondDate { get; set; }
+
     }
 }

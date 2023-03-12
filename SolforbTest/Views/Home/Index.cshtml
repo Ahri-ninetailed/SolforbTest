@@ -1,4 +1,5 @@
-﻿@inject Database.SolforbDbContext DbContext
+﻿@model FiltersModel
+@inject Database.SolforbDbContext DbContext
 @{
     ViewData["Title"] = "Главная";
     var orders = await DbContext.GetOrdersAsync();
