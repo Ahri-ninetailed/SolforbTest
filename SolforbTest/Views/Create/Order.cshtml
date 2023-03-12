@@ -1,0 +1,41 @@
+﻿@model Order
+@inject Database.SolforbDbContext DbContext
+@{
+    ViewData["Title"] = "Создать";
+    ViewBag.Providers = await DbContext.GetProvidersAsync();
+
+}
+<style>
+    .form-text {
+        color: red;
+    }
+</style>
+
+<div class="row">
+    <h1>Заказ</h1>
+    <form asp-action="CreateOrder" asp-controller="Create" method="post" id="orderForm">
+        
+        <div class="mb-3">
+            <p>Поставщик:</p>
+            <select class="form-select" aria-label="Default select example" asp-for="ProviderId">
+                @foreach (Provider provider in ViewBag.Providers)
+                {
+                    <option value="@provider.Id">@provider.Name</option>
+                }
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Number</label>
+            <input type="text" class="form-control" asp-for="Number">
+            <div class="form-text">@ViewBag.NumberLabel</div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Date</label>
+            <input type="date" class="form-control" value="@DateFormater.GetTodayDateString()" asp-for="Date">
+        </div>
+        <button 
+            class="btn btn-success">
+                Создать заказ
+        </button>
+    </form>
+</div>

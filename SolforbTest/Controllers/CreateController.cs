@@ -16,17 +16,17 @@ namespace SolforbTest.Controllers
         {
             this.solforbDbContext = solforbDbContext;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Order()
         {
-            return View(new Order());
+            return View("Order");
         }
         [Route("/Order/{id}")]
         [HttpGet]
-        public async Task<IActionResult> Order(int id)
+        public async Task<IActionResult> Index(int id)
         {
             var order = await solforbDbContext.GetOrderByIdAsync(id);
 
-            return View("ElementsOfOrder", order);
+            return View("Index", order);
         }
         [Route("/Order")]
         [HttpPost]
@@ -36,7 +36,7 @@ namespace SolforbTest.Controllers
             if (!isOrderValidate(order))
             {
                 fillOrderViewOfValidationErrors(order);
-                return View("Index", order);
+                return View("Order", order);
             }
             //Создать заказ, если его еще нет
             var foundOrder = await solforbDbContext.GetOrderByProviderAndNumberAsync(order.ProviderId, order.Number);
@@ -47,14 +47,14 @@ namespace SolforbTest.Controllers
             else
             {
                 ViewBag.NumberLabel = "Такой заказ от поставщика уже существует.";
-                return View("Index", order);
+                return View("Order", order);
 
             }
             var orderItems = order.OrderItems;
             if (orderItems is null)
                 orderItems = new List<OrderItem>() { };
             order.OrderItems = orderItems;
-            return View("ElementsOfOrder", order);
+            return View("Index", order);
         }
         [Route("Order/{orderId}/Item")]
         [HttpPost]
