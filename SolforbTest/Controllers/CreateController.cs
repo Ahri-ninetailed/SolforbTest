@@ -21,6 +21,7 @@ namespace SolforbTest.Controllers
             return View(new Order());
         }
         [Route("/Order/{id}")]
+        [HttpGet]
         public async Task<IActionResult> Order(int id)
         {
             var order = await solforbDbContext.GetOrderByIdAsync(id);

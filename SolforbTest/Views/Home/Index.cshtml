@@ -45,7 +45,7 @@
             <tbody>
                 @foreach (var order in orders)
                 {
-                    <tr>
+                    <tr onclick="location.href = 'Order/@order.Id'">
                         <th scope="row">@order.Id</th>
                         <td>@order.Number</td>
                         <td>@order.Date</td>
