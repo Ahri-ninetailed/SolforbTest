@@ -11,6 +11,7 @@ namespace SolforbTest.Controllers
     public class CreateController : BaseController
     {
         public CreateController(SolforbDbContext solforbDbContext) : base(solforbDbContext) { }
+        [Route("Order")]
         public async Task<IActionResult> Order()
         {
             return View("Order");
