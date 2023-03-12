@@ -16,9 +16,21 @@ namespace Database
         {
             return await solforbDbContext.Providers.FirstOrDefaultAsync(p => p.Id == id);
         }
+        public static IEnumerable<int> GetProvidersId(this SolforbDbContext solforbDbContext)
+        {
+            return solforbDbContext.Providers.Select(p => p.Id).Distinct();
+        }
+        public static IEnumerable<string> GetProvidersName(this SolforbDbContext solforbDbContext)
+        {
+            return solforbDbContext.Providers.Select(p => p.Name).Distinct();
+        }
         #endregion
 
         #region Table Orders
+        public static IEnumerable<string> GetDistinctOrderNumbers(this SolforbDbContext solforbDbContext)
+        {
+            return solforbDbContext.Orders.Select(o => o.Number).Distinct();
+        }
         public static async Task<int> GetOrderIdByOrderItemId(this SolforbDbContext solforbDbContext, int orderItemId)
         {
             OrderItem orderItem = await solforbDbContext.GetOrderItemByIdAsync(orderItemId);
@@ -54,6 +66,18 @@ namespace Database
         }
         #endregion
         #region Table OrderItems
+        public static IEnumerable<string> GetDistinctItemNames(this SolforbDbContext solforbDbContext)
+        {
+            return solforbDbContext.OrderItems.Select(ot => ot.Name).Distinct();
+        }
+        public static IEnumerable<decimal> GetDistinctItemQuantities(this SolforbDbContext solforbDbContext)
+        {
+            return solforbDbContext.OrderItems.Select(ot => ot.Quantity).Distinct();
+        }
+        public static IEnumerable<string> GetDistinctItemUnits(this SolforbDbContext solforbDbContext)
+        {
+            return solforbDbContext.OrderItems.Select(ot => ot.Unit).Distinct();
+        }
         public static async Task UpdateOrderItemAsync(this SolforbDbContext solforbDbContext, OrderItem orderItem)
         {
             solforbDbContext.OrderItems.Update(orderItem);
