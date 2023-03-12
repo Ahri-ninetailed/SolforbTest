@@ -20,14 +20,6 @@ namespace SolforbTest.Controllers
         {
             return View("Order");
         }
-        [Route("/Order/{id}")]
-        [HttpGet]
-        public async Task<IActionResult> Index(int id)
-        {
-            var order = await solforbDbContext.GetOrderByIdAsync(id);
-
-            return View("Index", order);
-        }
         [Route("/Order")]
         [HttpPost]
         public async Task<IActionResult> CreateOrder(Order order)
@@ -50,6 +42,7 @@ namespace SolforbTest.Controllers
                 return View("Order", order);
 
             }
+            return Redirect($"~/Order/{order.Id}");
             var orderItems = order.OrderItems;
             if (orderItems is null)
                 orderItems = new List<OrderItem>() { };
@@ -105,25 +98,6 @@ namespace SolforbTest.Controllers
             {
                 return BadRequest(ex.Message);
             }
-        }
-        [HttpPost]
-        public async Task<IActionResult> Save(Order order, int providerId, string number)
-        {
-            /*var orderItems = order.OrderItems;
-            order = await solforbDbContext.GetOrderByProviderAndNumberAsync(providerId, number);
-            if (!isOrderItemsValidate(orderItems))
-            {
-                order.OrderItems = orderItems;
-                fillOrderItemsViewOfValidationErrors(orderItems);
-                return View("ElementsOfOrder", order);
-            }
-            foreach (var item in orderItems)
-            {
-                item.OrderId = order.Id;
-                await solforbDbContext.CreateOrderItemAsync(item);
-            }
-            await solforbDbContext.UpdateOrderAsync(order);*/
-            return View("Views/Home/Index.cshtml");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
