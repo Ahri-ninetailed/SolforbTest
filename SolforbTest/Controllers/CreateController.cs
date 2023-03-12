@@ -43,11 +43,6 @@ namespace SolforbTest.Controllers
 
             }
             return Redirect($"~/Order/{order.Id}");
-            var orderItems = order.OrderItems;
-            if (orderItems is null)
-                orderItems = new List<OrderItem>() { };
-            order.OrderItems = orderItems;
-            return View("Index", order);
         }
         [Route("Order/{orderId}/Item")]
         [HttpPost]
@@ -81,20 +76,6 @@ namespace SolforbTest.Controllers
                 return Ok(null);
             }
             catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-        [Route("Order/DeleteOrder/{orderId}")]
-        [HttpDelete]
-        public async Task<ObjectResult> DeleteOrder(int orderId)
-        {
-            try
-            {
-                await solforbDbContext.DeleteOrderByIdAsync(orderId);
-                return Ok(null);
-            }
-            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
