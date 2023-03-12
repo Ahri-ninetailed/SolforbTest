@@ -29,7 +29,7 @@ namespace SolforbTest.Controllers
                 ViewData[$"UnitError"] = errorMsg;
             if (item.Name is null)
                 ViewData[$"NameError"] = errorMsg;
-            if (item.Name == item.OrderNumber)
+            else if (item.Name == item.OrderNumber)
                 ViewData[$"NameError"] = "Название позиции и номер заказа должны быть разными";
             if (item.Quantity <= 0)
                 ViewData[$"QuantityError"] = errorMsg;

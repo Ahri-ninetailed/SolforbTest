@@ -27,11 +27,15 @@
         </div>
     </div>
     <div class="row">
-        <h4>Элементы заказа</h4>
-        <form id="ItemsForm" asp-route="createitem" asp-route-orderId="@ViewBag.OrderId" method="post">
+        <h4>Элемент заказа</h4>
+        <form asp-action="Item" asp-controller="Update" asp-route-Id="@Model.Id" asp-route-orderId="@ViewBag.Order.Id" method="post">
             
 
             <div class="elementOrder ms-5 row">
+                <div class="col-3 mb-3">
+                    <label class="form-label">Id: @Model.Id</label>
+                    
+                </div>
                 <div class="col-3 mb-3">
                     <label class="form-label">Name</label>
                     <input type="text" class="form-control" asp-for=@Model.Name>

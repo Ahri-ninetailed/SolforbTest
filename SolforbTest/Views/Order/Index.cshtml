@@ -57,7 +57,7 @@
                             <a class="btn btn-danger deleteItem" id="@Model.OrderItems[i].Id">Удалить</a>
                         </div>
                     <div class="col-2" style="margin-top: 32px;">
-                        <a class="btn btn-primary" id="@Model.OrderItems[i].Id">Изменить</a>
+                        <a class="btn btn-primary" asp-action="Item" asp-route-orderItemId="@Model.OrderItems[i].Id" asp-controller="Update">Изменить</a>
                     </div>
 
                     </div>

@@ -19,6 +19,11 @@ namespace Database
         #endregion
 
         #region Table Orders
+        public static async Task<int> GetOrderIdByOrderItemId(this SolforbDbContext solforbDbContext, int orderItemId)
+        {
+            OrderItem orderItem = await solforbDbContext.GetOrderItemByIdAsync(orderItemId);
+            return orderItem.OrderId;
+        }
         public static async Task DeleteOrderByIdAsync(this SolforbDbContext solforbDbContext, int id)
         {
             Order order = await solforbDbContext.GetOrderByIdAsync(id);
@@ -49,6 +54,11 @@ namespace Database
         }
         #endregion
         #region Table OrderItems
+        public static async Task UpdateOrderItemAsync(this SolforbDbContext solforbDbContext, OrderItem orderItem)
+        {
+            solforbDbContext.OrderItems.Update(orderItem);
+            await solforbDbContext.SaveChangesAsync();
+        }
         public static async Task CreateOrderItemAsync(this SolforbDbContext solforbDbContext, OrderItem orderItem)
         {
             await solforbDbContext.OrderItems.AddAsync(orderItem);
