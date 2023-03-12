@@ -57,10 +57,10 @@ namespace SolforbTest.Controllers
         }
         [Route("Order/{orderId}/Item")]
         [HttpPost]
-        public async Task<IActionResult> Item(int orderId, OrderItem orderItem)
+        public async Task<IActionResult> Item(OrderItem orderItem)
         {
-            var order = await solforbDbContext.GetOrderByIdAsync(orderId);
-            ViewBag.OrderId = orderId;
+            var order = await solforbDbContext.GetOrderByIdAsync(orderItem.OrderId);
+            ViewBag.OrderId = orderItem.OrderId;
             orderItem.OrderNumber= order.Number;
            
             if (!isOrderItemValidate(orderItem) || orderItem.Name == order.Number)
@@ -70,12 +70,11 @@ namespace SolforbTest.Controllers
             }
             else
             {
-                orderItem.OrderId = orderId;
                 await solforbDbContext.CreateOrderItemAsync(orderItem);
                 order.OrderItems.Add(orderItem);
                 await solforbDbContext.SaveChangesAsync();
             }
-            return Redirect($"~/Order/{orderId}");
+            return Redirect($"~/Order/{orderItem.OrderId}");
         }
         [Route("Order/DeleteItem/{itemId}")]
         [HttpDelete]
