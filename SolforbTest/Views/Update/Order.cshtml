@@ -1,7 +1,7 @@
 ﻿@model Order
 @inject Database.SolforbDbContext DbContext
 @{
-    ViewData["Title"] = "Создать";
+    ViewData["Title"] = "Изменить заказ";
     ViewBag.Providers = await DbContext.GetProvidersAsync();
 
 }
@@ -13,8 +13,11 @@
 
 <div class="row">
     <h1>Заказ</h1>
-    <form asp-action="CreateOrder" asp-controller="Create" method="post" id="orderForm">
-        
+    <form asp-action="Order" asp-controller="Update" method="post" id="orderForm">
+        <div class="mb-3">
+            <p>Id: @Model.Id</p>
+            
+        </div>
         <div class="mb-3">
             <p>Поставщик:</p>
             <select class="form-select" aria-label="Default select example" asp-for="ProviderId">
@@ -35,7 +38,7 @@
         </div>
         <button 
             class="btn btn-success">
-                Создать
+                Сохранить
         </button>
     </form>
 </div>

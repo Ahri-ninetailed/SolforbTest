@@ -1,7 +1,7 @@
 ﻿@model OrderItem
 @inject Database.SolforbDbContext DbContext
 @{
-    ViewData["Title"] = "Создать элемент заказа";
+    ViewData["Title"] = "Обновить элемент заказа";
     ViewBag.Order = await DbContext.GetOrderByIdAsync(Model.OrderId);
     ViewBag.Provider = await DbContext.GetProviderByIdAsync((int)ViewBag.Order.ProviderId);
 }
@@ -52,7 +52,7 @@
             </div>
             
             <button id="AddItem" class="btn btn-success" type="submit">
-                Создать
+                Сохранить
             </button>
         </form>
     </div>

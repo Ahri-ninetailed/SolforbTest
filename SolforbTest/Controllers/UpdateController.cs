@@ -1,12 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Database;
+using Database.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SolforbTest.Controllers
 {
-    public class UpdateController : Controller
+    public class UpdateController : BaseController
     {
-        public IActionResult Index()
+        public UpdateController(SolforbDbContext solforbDbContext) : base(solforbDbContext) { }
+        [Route("Update/Order/{orderId}")]
+        [HttpGet]
+        public async Task<IActionResult> Order(int orderId)
         {
-            return View();
+            Order order = await solforbDbContext.GetOrderByIdAsync(orderId);
+            return View("Order", order);
         }
     }
 }

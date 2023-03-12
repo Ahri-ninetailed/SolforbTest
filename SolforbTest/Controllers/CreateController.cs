@@ -10,12 +10,7 @@ namespace SolforbTest.Controllers
 {
     public class CreateController : BaseController
     {
-        private readonly SolforbDbContext solforbDbContext;
-
-        public CreateController(SolforbDbContext solforbDbContext)
-        {
-            this.solforbDbContext = solforbDbContext;
-        }
+        public CreateController(SolforbDbContext solforbDbContext) : base(solforbDbContext) { }
         public async Task<IActionResult> Order()
         {
             return View("Order");

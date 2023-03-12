@@ -1,10 +1,16 @@
-﻿using Database.Models;
+﻿using Database;
+using Database.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SolforbTest.Controllers
 {
     public class BaseController : Controller
     {
+        protected readonly SolforbDbContext solforbDbContext;
+        public BaseController(SolforbDbContext solforbDbContext)
+        {
+            this.solforbDbContext = solforbDbContext;
+        }
         protected virtual void fillOrderViewOfValidationErrors(Order order)
         {
             string errorMsg = "Это поле обязательно к заполнению.";
