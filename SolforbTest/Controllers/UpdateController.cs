@@ -25,7 +25,7 @@ namespace SolforbTest.Controllers
                 return View("Order", order);
             }
             Order anotherOrder = await solforbDbContext.GetOrderByProviderAndNumberAsync(order.ProviderId, order.Number);
-            if (anotherOrder is not null)
+            if (anotherOrder is not null && anotherOrder.Id != orderId)
             {
                 string errorMessage = "Заказ от такого поставщика уже существует";
                 ViewBag.NumberLabel = errorMessage;
