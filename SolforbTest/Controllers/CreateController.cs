@@ -45,17 +45,22 @@ namespace SolforbTest.Controllers
             return Redirect($"~/Order/{order.Id}");
         }
         [Route("Order/{orderId}/Item")]
-        [HttpPost]
         public async Task<IActionResult> Item(OrderItem orderItem)
         {
+            return View("Item", orderItem);
+        }
+        [Route("/Order/{orderId}/Item",
+            Name = "createitem")]
+        [HttpPost]
+        public async Task<IActionResult> CreateItem(OrderItem orderItem)
+        {
             var order = await solforbDbContext.GetOrderByIdAsync(orderItem.OrderId);
-            ViewBag.OrderId = orderItem.OrderId;
             orderItem.OrderNumber= order.Number;
            
             if (!isOrderItemValidate(orderItem) || orderItem.Name == order.Number)
             {
                 fillOrderItemViewOfValidationErrors(orderItem);
-                return View("Item");
+                return View("Item", orderItem);
             }
             else
             {

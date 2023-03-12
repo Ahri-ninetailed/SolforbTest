@@ -2,7 +2,7 @@
 @inject Database.SolforbDbContext DbContext
 @{
     ViewData["Title"] = "Создать элемент заказа";
-    ViewBag.Order = await DbContext.GetOrderByIdAsync((int)ViewBag.OrderId);
+    ViewBag.Order = await DbContext.GetOrderByIdAsync(Model.OrderId);
     ViewBag.Provider = await DbContext.GetProviderByIdAsync((int)ViewBag.Order.ProviderId);
 }
 <style>
@@ -28,7 +28,7 @@
     </div>
     <div class="row">
         <h4>Элементы заказа</h4>
-        <form id="ItemsForm" asp-action="Item" asp-route-orderId="@ViewBag.OrderId" asp-controller="Create" method="post">
+        <form id="ItemsForm" asp-route="createitem" asp-route-orderId="@ViewBag.OrderId" method="post">
             
 
             <div class="elementOrder ms-5 row">

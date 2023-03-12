@@ -30,7 +30,7 @@
     </div>
     <div class="row">
         <h4>Элементы заказа</h4>
-        <form id="ItemsForm" asp-action="Item" asp-route-orderId="@Model.Id" asp-controller="Create" method="post">
+      
             <div class="elementsOfOrder">
                 @for (int i = 0; i < Model.OrderItems.Count(); i++)
                 {
@@ -58,13 +58,12 @@
                     </div>
                 }
             </div> 
-            <button id="AddItem" class="btn btn-success" type="submit">
+            <a class="btn btn-success" asp-action="Item" asp-route-orderId="@Model.Id" asp-controller="Create">
                 Добавить элемент
-            </button>
+            </a>
             <button id="saveButton" class="btn btn-warning">
                 Сохранить изменения элемеентов
             </button>
-        </form>
     </div>
 </div>
 <script src="~/lib/jquery/jquery.min.js"></script>
