@@ -3,7 +3,11 @@
     ViewData["Title"] = "Главная";
     var orders = await DbContext.GetOrdersAsync();
 }
-
+<style>
+    div div p {
+        height:27px
+    }
+</style>
 <div class="text-center">
     <div class="row">
         <div class="col-3">
@@ -18,16 +22,64 @@
         </div>
     </div>
     <div class="row mt-3">
-        <div class="col">
+        <div class="col col-sm-4 col-md-3 col-lg-2">
+            <p>С</p>
             <input type="date" id="firstDatePicker" value="@DateFormater.GetMonthAgoDateString()"/>
+            <p>По</p>
             <input type="date" id="secondDatePicker" value="@DateFormater.GetTodayDateString()" />
         </div>
-        <div class="col">
+        <div class="col col-sm-4 col-md-3 col-lg-2">
+            <p>Order Number</p>
             <select size="4" multiple>
-                @*                <option value="volvo">Volvo</option>
+                <option value="volvo">Volvo</option>
                 <option value="saab">Saab</option>
                 <option value="opel">Opel</option>
-                <option value="audi">Audi</option>*@
+                <option value="audi">Audi</option>
+            </select>
+        </div>
+        <div class="col col-sm-4 col-md-3 col-lg-1">
+            <p>ProviderId</p>
+            <select size="4" multiple>
+                <option value="volvo">Volvo</option>
+                <option value="saab">Saab</option>
+                <option value="opel">Opel</option>
+                <option value="audi">Audi</option>
+            </select>
+        </div>
+        <div class="col col-sm-4 col-md-3 col-lg-2">
+            <p>Item Name</p>
+            <select size="4" multiple>
+                <option value="volvo">Volvo</option>
+                <option value="saab">Saab</option>
+                <option value="opel">Opel</option>
+                <option value="audi">Audi</option>
+            </select>
+        </div>
+        <div class="col col-sm-4 col-md-3 col-lg-1">
+            <p>Item Quantity</p>
+            <select size="4" multiple>
+                <option value="volvo">Volvo</option>
+                <option value="saab">Saab</option>
+                <option value="opel">Opel</option>
+                <option value="audi">Audi</option>
+            </select>
+        </div>
+        <div class="col col-sm-4 col-md-3 col-lg-2">
+            <p>Item Unit</p>
+            <select size="4" multiple>
+                <option value="volvo">Volvo</option>
+                <option value="saab">Saab</option>
+                <option value="opel">Opel</option>
+                <option value="audi">Audi</option>
+            </select>
+        </div>
+        <div class="col col-sm-4 col-md-3 col-lg-1">
+            <p>Provider Name</p>
+            <select size="4" multiple>
+                <option value="volvo">Volvo</option>
+                <option value="saab">Saab</option>
+                <option value="opel">Opel</option>
+                <option value="audi">Audi</option>
             </select>
         </div>
     </div>
