@@ -1,4 +1,6 @@
-﻿namespace SolforbTest.Models
+﻿using SolforbTest.Services;
+
+namespace SolforbTest.Models
 {
     public class FiltersModel
     {
@@ -8,8 +10,8 @@
         public IEnumerable<decimal> ItemsQuantities { get; set; }
         public IEnumerable<string> ItemsUnits { get; set; }
         public IEnumerable<string> ProvidersNames { get; set; }
-        public DateTime FirstDate { get; set; }
-        public DateTime SecondDate { get; set; }
+        public DateTime FirstDate { get; set; } = DateTime.Now.AddMonths(-1);
+        public DateTime SecondDate { get; set; } = DateTime.Now;
 
     }
 }

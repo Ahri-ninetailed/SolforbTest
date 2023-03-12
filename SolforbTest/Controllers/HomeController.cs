@@ -1,4 +1,5 @@
 ﻿using Database;
+using Database.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SolforbTest.Models;
@@ -15,15 +16,17 @@ namespace SolforbTest.Controllers
             this.solforbDbContext = solforbDbContext;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(FiltersModel filters)
         {
             var orders = await solforbDbContext.GetOrdersAsync();
-            ViewBag.Orders = orders;
-            return View();
-        }
-        public async Task<IActionResult> Filter(FiltersModel filters)
-        {
-            
+            ViewBag.Orders = orders
+                .OrdersByDates(filters.FirstDate, filters.SecondDate)
+                .OrdersByProvidersId(filters.ProvidersId)
+                .OrdersByNumbers(filters.OrdersNumbers)
+                .OrdersByItemsNames(filters.ItemsNames)
+                .OrdersByItemsQuantities(filters.ItemsQuantities)
+                .OrdersByItemsUnits(filters.ItemsUnits)
+                .OrdersByProvidersNames(filters.ProvidersNames, await solforbDbContext.GetProvidersAsync());
             return View();
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
