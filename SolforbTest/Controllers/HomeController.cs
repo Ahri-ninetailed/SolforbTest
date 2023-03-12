@@ -15,8 +15,14 @@ namespace SolforbTest.Controllers
         {
             this.solforbDbContext = solforbDbContext;
         }
-
-        public async Task<IActionResult> Index(FiltersModel filters)
+        public async Task<IActionResult> Index()
+        {
+            var orders = await solforbDbContext.GetOrdersAsync();
+            ViewBag.Orders = orders;
+            return View();
+        }
+        [Route("FilterOrders")]
+        public async Task<IActionResult> Filter(FiltersModel filters)
         {
             var orders = await solforbDbContext.GetOrdersAsync();
             ViewBag.Orders = orders
@@ -27,7 +33,7 @@ namespace SolforbTest.Controllers
                 .OrdersByItemsQuantities(filters.ItemsQuantities)
                 .OrdersByItemsUnits(filters.ItemsUnits)
                 .OrdersByProvidersNames(filters.ProvidersNames, await solforbDbContext.GetProvidersAsync());
-            return View();
+            return View("Index");
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

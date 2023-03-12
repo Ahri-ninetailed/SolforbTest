@@ -15,7 +15,7 @@
     }
 </style>
 <div class="text-center">
-    <form asp-action="Index" asp-controller="Home">
+    <form asp-action="Filter" asp-controller="Home">
         <div class="row">
             <div class="col-3">
                 <a class="btn btn-primary" asp-controller="Create" asp-action="Order">
@@ -116,12 +116,6 @@
                         <td>@order.OrderItems.ToArray().Length</td>
                     </tr>   
                 }
-@*                <tr onclick="location.href = '@Url.Action("Index", "Create")'">
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>123</td>
-                </tr>*@
             </tbody>
         </table>
     </div>
