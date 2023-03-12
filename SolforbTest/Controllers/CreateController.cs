@@ -45,7 +45,9 @@ namespace SolforbTest.Controllers
             }
             else
             {
-                return View("ElementsOfOrder", foundOrder);
+                ViewBag.NumberLabel = "Такой заказ от поставщика уже существует.";
+                return View("Index", order);
+
             }
             var orderItems = order.OrderItems;
             if (orderItems is null)
