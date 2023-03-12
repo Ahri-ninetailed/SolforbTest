@@ -18,14 +18,17 @@
         <div class="col-3">
             Prodiver: @provider.Name
         </div>
-        <div class="col-3">
+        <div class="col-1">
             Number: @Model.Number
         </div>
         <div class="col-2">
             Date: @Model.Date
         </div>
-        <div id="deleteOrder" class="col-3">
+        <div id="deleteOrder" class="col-2">
             <a class="btn btn-danger deleteItem">Удалить</a>
+        </div>
+        <div id="changeOrder" class="col-2">
+            <a class="btn btn-primary">Изменить</a>
         </div>
     </div>
     <div class="row">
@@ -45,33 +48,31 @@
                             <p>@Model.OrderItems[i].Quantity</p>
                             <div class="form-text">@ViewData[$"QuantityError{i}"]</div>
                         </div>
-                        <div class="col-3 mb-3">
+                        <div class="col-2 mb-3">
                             <label class="form-label">Unit</label>
                             <p>@Model.OrderItems[i].Unit</p>
                             <div class="form-text">@ViewData[$"UnitError{i}"]</div>
                         </div>
-                        <div class="col-3" style="margin-top: 32px;">
+                        <div class="col-2" style="margin-top: 32px;">
                             <a class="btn btn-danger deleteItem" id="@Model.OrderItems[i].Id">Удалить</a>
                         </div>
-
+                    <div class="col-2" style="margin-top: 32px;">
+                        <a class="btn btn-primary" id="@Model.OrderItems[i].Id">Изменить</a>
+                    </div>
 
                     </div>
                 }
             </div> 
-            <a class="btn btn-success" asp-action="Item" asp-route-orderId="@Model.Id" asp-controller="Create">
-                Добавить элемент
-            </a>
-            <button id="saveButton" class="btn btn-warning">
-                Сохранить изменения элемеентов
-            </button>
+            <div class="col-3">
+                <a class="btn btn-success" asp-action="Item" asp-route-orderId="@Model.Id" asp-controller="Create">
+                    Добавить элемент
+                </a>
+            </div>
+            
     </div>
 </div>
 <script src="~/lib/jquery/jquery.min.js"></script>
 <script>
-    $("#saveButton").click(function (event) {
-        event.preventDefault();
-
-    });
     $( ".deleteItem" ).click(function(event) {
 
         event.preventDefault();

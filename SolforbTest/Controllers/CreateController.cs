@@ -8,7 +8,7 @@ using System.Reflection.Metadata.Ecma335;
 
 namespace SolforbTest.Controllers
 {
-    public class CreateController : Controller
+    public class CreateController : BaseController
     {
         private readonly SolforbDbContext solforbDbContext;
 
@@ -91,36 +91,6 @@ namespace SolforbTest.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        
-
-        private void fillOrderViewOfValidationErrors(Order order)
-        {
-            string errorMsg = "Это поле обязательно к заполнению.";
-            if (order.Number is null)
-                ViewBag.NumberLabel = errorMsg;
-        }
-        private bool isOrderValidate(Order order)
-        {
-            return (order.Number is null ? false : true);
-
-        }
-        private void fillOrderItemViewOfValidationErrors(OrderItem item)
-        {
-            string errorMsg = "Это поле обязательно к заполнению.";
-            if (item.Unit is null)
-                ViewData[$"UnitError"] = errorMsg;
-            if (item.Name is null)
-                ViewData[$"NameError"] = errorMsg;
-            if (item.Name == item.OrderNumber)
-                ViewData[$"NameError"] = "Название позиции и номер заказа должны быть разными";
-            if (item.Quantity <= 0)
-                ViewData[$"QuantityError"] = errorMsg;
-        }
-        private bool isOrderItemValidate(OrderItem item)
-        {
-            if (item.Name is null || item.Unit is null || item.Quantity <= 0)
-                 return false;
-            return true;
-        }
+       
     }
 }
