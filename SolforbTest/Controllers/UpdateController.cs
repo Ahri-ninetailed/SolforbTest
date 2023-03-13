@@ -19,11 +19,14 @@ namespace SolforbTest.Controllers
         [HttpPost]
         public async Task<IActionResult> Order(int orderId, Order order)
         {
+            //валидация заказа
             if (!isOrderValidate(order))
             {
+                //метод заполняет представление ошибками валидации
                 fillOrderViewOfValidationErrors(order);
                 return View("Order", order);
             }
+            //проверим, не существует ли такого заказа
             Order anotherOrder = await solforbDbContext.GetOrderByProviderAndNumberAsync(order.ProviderId, order.Number);
             if (anotherOrder is not null && anotherOrder.Id != orderId)
             {
@@ -32,6 +35,7 @@ namespace SolforbTest.Controllers
                 ViewBag.ProviderLabel = errorMessage;
                 return View("Order", order);
             }
+            //обновим заказ
             Order foundOrder = await solforbDbContext.GetOrderByIdAsync(orderId);
             foundOrder.UpdateOrder(order);
             await solforbDbContext.UpdateOrderAsync(foundOrder);

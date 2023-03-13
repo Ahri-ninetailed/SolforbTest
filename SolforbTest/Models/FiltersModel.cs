@@ -2,6 +2,9 @@
 
 namespace SolforbTest.Models
 {
+    /// <summary>
+    /// Модель фильтров на главной странице
+    /// </summary>
     public class FiltersModel
     {
         public IEnumerable<string> OrdersNumbers { get; set; }
