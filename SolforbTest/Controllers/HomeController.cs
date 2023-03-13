@@ -19,7 +19,7 @@ namespace SolforbTest.Controllers
         {
             var orders = await solforbDbContext.GetOrdersAsync();
             ViewBag.Orders = orders;
-            return View();
+            return View(new FiltersModel());
         }
         [Route("FilterOrders")]
         public async Task<IActionResult> Filter(FiltersModel filters)
