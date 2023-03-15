@@ -26,30 +26,17 @@ namespace SolforbTest.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOrder(CreateOrderCommand command)
         {
+            Models.Order order = null;
             try
             {
-                Models.Order order = await mediator.Send(command);
+                order = await mediator.Send(command);
+                return Redirect($"~/Order/{order.Id}");
             }
-            catch()
-            //Валидация страницы создания заказа
-            if (!isOrderValidate(order))
+            catch(Exception ex)
             {
-                fillOrderViewOfValidationErrors(order);
-                return View("Order", order);
+                fillOrderViewOfValidationErrors(ex);
+                return View("Order", command);
             }
-            //Создать заказ, если его еще нет
-            var foundOrder = await solforbDbContext.GetOrderByProviderAndNumberAsync(order.ProviderId, order.Number);
-            if (foundOrder is null)
-            {
-                await solforbDbContext.CreateOrderAsync(order);
-            }
-            else
-            {
-                ViewBag.NumberLabel = "Такой заказ от поставщика уже существует.";
-                return View("Order", order);
-
-            }
-            return Redirect($"~/Order/{order.Id}");
         }
         [Route("Order/{orderId}/Item")]
         public async Task<IActionResult> Item(OrderItem orderItem)

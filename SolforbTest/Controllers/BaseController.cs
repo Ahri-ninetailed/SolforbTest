@@ -1,6 +1,7 @@
 ﻿using Database;
 using Database.Models;
 using Microsoft.AspNetCore.Mvc;
+using SolforbTest.Exceptions;
 
 namespace SolforbTest.Controllers
 {
@@ -11,11 +12,18 @@ namespace SolforbTest.Controllers
         {
             this.solforbDbContext = solforbDbContext;
         }
-        protected virtual void fillOrderViewOfValidationErrors(Order order)
+        protected virtual void fillOrderViewOfValidationErrors(Exception exception)
         {
-            string errorMsg = "Это поле обязательно к заполнению.";
-            if (order.Number is null)
-                ViewBag.NumberLabel = errorMsg;
+            switch (exception)
+            {
+                case RequiredFieldException requiredFieldException:
+
+                    ViewBag.NumberLabel = requiredFieldException.Message;
+                    break;
+                case ExistingOrderException existingOrderException:
+                    ViewBag.NumberLabel = existingOrderException.Message;
+                    break;
+            }
         }
         protected virtual bool isOrderValidate(Order order)
         {

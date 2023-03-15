@@ -1,4 +1,4 @@
-﻿namespace SolforbTest.Extensions
+﻿namespace SolforbTest.Exceptions
 {
     public class ExistingOrderException : Exception
     {
