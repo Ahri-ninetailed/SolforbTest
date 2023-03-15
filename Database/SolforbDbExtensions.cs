@@ -84,10 +84,11 @@ namespace Database
             solforbDbContext.OrderItems.Update(orderItem);
             await solforbDbContext.SaveChangesAsync();
         }
-        public static async Task CreateOrderItemAsync(this SolforbDbContext solforbDbContext, OrderItem orderItem)
+        public static async Task<OrderItem> CreateOrderItemAsync(this SolforbDbContext solforbDbContext, OrderItem orderItem)
         {
             await solforbDbContext.OrderItems.AddAsync(orderItem);
             await solforbDbContext.SaveChangesAsync();
+            return orderItem;
         }
         public static async Task<OrderItem> GetOrderItemByIdAsync(this SolforbDbContext solforbDbContext, int id)
         {

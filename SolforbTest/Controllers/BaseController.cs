@@ -30,17 +30,26 @@ namespace SolforbTest.Controllers
             return (order.Number is null ? false : true);
 
         }
-        protected virtual void fillOrderItemViewOfValidationErrors(OrderItem item)
+        protected virtual void fillOrderItemViewOfValidationErrors(ValidationExceptions exceptions)
         {
-            string errorMsg = "Это поле обязательно к заполнению.";
-            if (item.Unit is null)
-                ViewData[$"UnitError"] = errorMsg;
-            if (item.Name is null)
-                ViewData[$"NameError"] = errorMsg;
-            else if (item.Name == item.OrderNumber)
-                ViewData[$"NameError"] = "Название позиции и номер заказа должны быть разными";
-            if (item.Quantity <= 0)
-                ViewData[$"QuantityError"] = errorMsg;
+            foreach (var exception in exceptions.ArrayOfExceptions)
+            {
+                switch (exception)
+                {
+                    case RequiredOrderItemUnitException requiredOrderItemUnitException:
+                        ViewBag.UnitError = requiredOrderItemUnitException.Message;
+                        break;
+                    case RequiredOrderItemNameException requiredOrderItemNameException:
+                        ViewBag.NameError = requiredOrderItemNameException.Message;
+                        break;
+                    case EqualOrderNumberAndOrderItemNameException equalOrderNumberAndOrderItemName:
+                        ViewBag.NameError = equalOrderNumberAndOrderItemName.Message;
+                        break;
+                    case RequiredOrderItemQuantityException requiredOrderItemQuantityException:
+                        ViewBag.QuantityError = requiredOrderItemQuantityException.Message;
+                        break;
+                }
+            }
         }
         protected virtual bool isOrderItemValidate(OrderItem item)
         {

@@ -3,6 +3,7 @@ using Database.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SolforbTest.Exceptions;
 using SolforbTest.Features;
 using SolforbTest.Models;
 using System.Diagnostics;
@@ -39,30 +40,32 @@ namespace SolforbTest.Controllers
             }
         }
         [Route("Order/{orderId}/Item")]
-        public async Task<IActionResult> Item(OrderItem orderItem)
+        public async Task<IActionResult> Item(int orderId)
         {
-            return View("Item", orderItem);
+            return View("Item", new CreateOrderItemCommand 
+            { 
+                OrderItem = new Models.OrderItem 
+                { 
+                    OrderId = orderId 
+                } 
+            });
         }
         [Route("/Order/{orderId}/Item",
             Name = "createitem")]
         [HttpPost]
-        public async Task<IActionResult> CreateItem(OrderItem orderItem)
+        public async Task<IActionResult> CreateItem(CreateOrderItemCommand command)
         {
-            var order = await solforbDbContext.GetOrderByIdAsync(orderItem.OrderId);
-            orderItem.OrderNumber= order.Number;
-           
-            if (!isOrderItemValidate(orderItem) || orderItem.Name == order.Number)
+            Models.OrderItem orderItem = null;
+            try
             {
-                fillOrderItemViewOfValidationErrors(orderItem);
-                return View("Item", orderItem);
+                orderItem = await mediator.Send(command);
+                return Redirect($"~/Order/{orderItem.OrderId}");
             }
-            else
+            catch (ValidationExceptions exceptions)
             {
-                await solforbDbContext.CreateOrderItemAsync(orderItem);
-                order.OrderItems.Add(orderItem);
-                await solforbDbContext.SaveChangesAsync();
+                fillOrderItemViewOfValidationErrors(exceptions);
+                return View("Item", command);
             }
-            return Redirect($"~/Order/{orderItem.OrderId}");
         }
 
         [Route("Order/DeleteItem/{itemId}")]

@@ -1,8 +1,9 @@
-﻿@model OrderItem
+﻿@model CreateOrderItemCommand
 @inject Database.SolforbDbContext DbContext
 @{
     ViewData["Title"] = "Создать элемент заказа";
-    ViewBag.Order = await DbContext.GetOrderByIdAsync(Model.OrderId);
+    ViewBag.Order = await DbContext.GetOrderByIdAsync(Model.OrderItem.OrderId);
+    Model.OrderItem.OrderId = ViewBag.Order.Id;
     ViewBag.Provider = await DbContext.GetProviderByIdAsync((int)ViewBag.Order.ProviderId);
 }
 <style>
@@ -34,17 +35,17 @@
             <div class="elementOrder ms-5 row">
                 <div class="col-3 mb-3">
                     <label class="form-label">Name</label>
-                    <input type="text" class="form-control" asp-for=@Model.Name>
+                    <input type="text" class="form-control" asp-for=@Model.OrderItem.Name>
                     <div class="form-text">@ViewData[$"NameError"]</div>
                 </div>
                 <div class="col-3 mb-3">
                     <label class="form-label">Quantity</label>
-                    <input type="number" step="any" class="form-control" asp-for="@Model.Quantity">
+                    <input type="number" step="any" class="form-control" asp-for="@Model.OrderItem.Quantity">
                     <div class="form-text">@ViewData[$"QuantityError"]</div>
                 </div>
                 <div class="col-3 mb-3">
                     <label class="form-label">Unit</label>
-                    <input type="text" class="form-control" asp-for="@Model.Unit">
+                    <input type="text" class="form-control" asp-for="@Model.OrderItem.Unit">
                     <div class="form-text">@ViewData[$"UnitError"]</div>
                 </div>
 
