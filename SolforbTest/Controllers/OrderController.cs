@@ -18,10 +18,9 @@ namespace SolforbTest.Controllers
         }
         [Route("/Order/{id}")]
         [HttpGet]
-        public async Task<IActionResult> Index(int id)
+        public async Task<IActionResult> Index(GetOrderByIdRequest request)
         {
-            var order = await solforbDbContext.GetOrderByIdAsync(id);
-
+            var order = await mediator.Send(request);
             return View("Index", order);
         }
         [Route("Order/DeleteOrder/{orderId}")]
