@@ -1,5 +1,5 @@
 ﻿using Database;
-
+using System.Reflection;
 namespace SolforbTest.Extensions
 {
     public static class ServiceProviderExtensions
@@ -11,6 +11,10 @@ namespace SolforbTest.Extensions
         public static void AddDatabaseModule(this IServiceCollection services)
         {
             services.AddDbContext<SolforbDbContext>();
+        }
+        public static void AddMediatRModule(this IServiceCollection services)
+        {
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
         }
     }
 }
