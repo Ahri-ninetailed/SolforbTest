@@ -68,20 +68,6 @@ namespace SolforbTest.Controllers
             }
         }
 
-        [Route("Order/DeleteItem/{itemId}")]
-        [HttpDelete]
-        public async Task<ObjectResult> DeleteItem(int itemId)
-        {
-            try
-            {
-                await solforbDbContext.DeleteOderItemByIdAsync(itemId);
-                return Ok(null);
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
