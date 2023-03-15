@@ -1,4 +1,4 @@
-﻿@model FiltersModel
+﻿@model GetFilteredOrdersRequest
 @inject Database.SolforbDbContext DbContext
 @{
     ViewData["Title"] = "Главная";
@@ -31,13 +31,13 @@
         <div class="row mt-3">
             <div class="col col-sm-4 col-md-3 col-lg-2">
                 <p>С</p>
-                <input type="date" id="firstDatePicker" asp-for="FirstDate"/>
+                <input type="date" id="firstDatePicker" asp-for="@Model.FiltersModel.FirstDate"/>
                 <p>По</p>
-                <input type="date" id="secondDatePicker" asp-for="SecondDate"/>
+                <input type="date" id="secondDatePicker" asp-for="@Model.FiltersModel.SecondDate"/>
             </div>
             <div class="col col-sm-4 col-md-3 col-lg-2">
                 <p>Order Number</p>
-                <select class="form-select" aria-label="size 5 multiple select example" size="4" multiple asp-for="OrdersNumbers">
+                <select class="form-select" aria-label="size 5 multiple select example" size="4" multiple asp-for="@Model.FiltersModel.OrdersNumbers">
                     @foreach (var orderNumber in orderNumbers)
                     {
                         <option value="@orderNumber">@orderNumber</option>
@@ -46,7 +46,7 @@
             </div>
             <div class="col col-sm-4 col-md-3 col-lg-1">
                 <p>ProviderId</p>
-                <select class="form-select" aria-label="size 5 multiple select example" size="4" multiple asp-for="ProvidersId">
+                <select class="form-select" aria-label="size 5 multiple select example" size="4" multiple asp-for="@Model.FiltersModel.ProvidersId">
                     @foreach (var providerId in providersId)
                     {
                         <option value="@providerId">@providerId</option>
@@ -55,7 +55,7 @@
             </div>
             <div class="col col-sm-4 col-md-3 col-lg-2">
                 <p>Item Name</p>
-                <select class="form-select" aria-label="size 5 multiple select example" size="4" multiple asp-for="ItemsNames">
+                <select class="form-select" aria-label="size 5 multiple select example" size="4" multiple asp-for="@Model.FiltersModel.ItemsNames">
                     @foreach (var itemsName in itemsNames)
                     {
                         <option value="@itemsName">@itemsName</option>
@@ -64,7 +64,7 @@
             </div>
             <div class="col col-sm-4 col-md-3 col-lg-1">
                 <p>Item Quantity</p>
-                <select class="form-select" aria-label="size 5 multiple select example" size="4" multiple asp-for="ItemsQuantities">
+                <select class="form-select" aria-label="size 5 multiple select example" size="4" multiple asp-for="@Model.FiltersModel.ItemsQuantities">
                     @foreach (var itemQuantity in itemsQuantities)
                     {
                         <option value="@itemQuantity">@itemQuantity</option>
@@ -73,7 +73,7 @@
             </div>
             <div class="col col-sm-4 col-md-3 col-lg-2">
                 <p>Item Unit</p>
-                <select class="form-select" aria-label="size 5 multiple select example" size="4" multiple asp-for="ItemsUnits">
+                <select class="form-select" aria-label="size 5 multiple select example" size="4" multiple asp-for="@Model.FiltersModel.ItemsUnits">
                     @foreach (var itemsUnit in itemsUnits)
                     {
                         <option value="@itemsUnit">@itemsUnit</option>
@@ -82,7 +82,7 @@
             </div>
             <div class="col col-sm-4 col-md-3 col-lg-2">
                 <p>Provider Name</p>
-                <select class="form-select" aria-label="size 5 multiple select example" size="4" multiple asp-for="ProvidersNames">
+                <select class="form-select" aria-label="size 5 multiple select example" size="4" multiple asp-for="@Model.FiltersModel.ProvidersNames">
                     @foreach (var providerName in providersNames)
                     {
                         <option value="@providerName">@providerName</option>

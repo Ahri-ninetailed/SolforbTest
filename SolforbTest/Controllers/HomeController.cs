@@ -21,9 +21,8 @@ namespace SolforbTest.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var orders = await solforbDbContext.GetOrdersAsync();
-            ViewBag.Orders = orders;
-            return View(new FiltersModel());
+            ViewBag.Orders = await mediator.Send(new GetOrdersRequest());
+            return View(new GetFilteredOrdersRequest());
         }
         [Route("FilterOrders")]
         public async Task<IActionResult> Filter(GetFilteredOrdersRequest request)
