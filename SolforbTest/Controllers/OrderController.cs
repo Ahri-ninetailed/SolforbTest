@@ -26,17 +26,9 @@ namespace SolforbTest.Controllers
         }
         [Route("Order/DeleteOrder/{orderId}")]
         [HttpDelete]
-        public async Task<ObjectResult> DeleteOrder(int orderId)
+        public async Task DeleteOrder(DeleteOrderByIdCommand command)
         {
-            try
-            {
-                await solforbDbContext.DeleteOrderByIdAsync(orderId);
-                return Ok(null);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(command);
         }
         [Route("Order/DeleteItem/{itemId}")]
         [HttpDelete]
