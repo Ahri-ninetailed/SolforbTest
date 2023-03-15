@@ -1,7 +1,9 @@
 ﻿using Database;
 using Database.Models;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SolforbTest.Features;
 using SolforbTest.Models;
 using System.Diagnostics;
 
@@ -10,10 +12,12 @@ namespace SolforbTest.Controllers
     public class HomeController : Controller
     {
         private readonly SolforbDbContext solforbDbContext;
+        private readonly IMediator mediator;
 
-        public HomeController(SolforbDbContext solforbDbContext)
+        public HomeController(SolforbDbContext solforbDbContext, IMediator mediator)
         {
             this.solforbDbContext = solforbDbContext;
+            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
         public async Task<IActionResult> Index()
         {
@@ -22,17 +26,9 @@ namespace SolforbTest.Controllers
             return View(new FiltersModel());
         }
         [Route("FilterOrders")]
-        public async Task<IActionResult> Filter(FiltersModel filters)
+        public async Task<IActionResult> Filter(GetFilteredOrdersRequest request)
         {
-            var orders = await solforbDbContext.GetOrdersAsync();
-            ViewBag.Orders = orders
-                .OrdersByDates(filters.FirstDate, filters.SecondDate)
-                .OrdersByProvidersId(filters.ProvidersId)
-                .OrdersByNumbers(filters.OrdersNumbers)
-                .OrdersByItemsNames(filters.ItemsNames)
-                .OrdersByItemsQuantities(filters.ItemsQuantities)
-                .OrdersByItemsUnits(filters.ItemsUnits)
-                .OrdersByProvidersNames(filters.ProvidersNames, await solforbDbContext.GetProvidersAsync());
+            ViewBag.Orders = await mediator.Send(request);
             return View("Index");
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
