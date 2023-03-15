@@ -2,6 +2,10 @@
 using MediatR;
 using SolforbTest.Models;
 using Database.Builders;
+using SolforbTest.Exceptions;
+using Database.Models;
+using SolforbTest.Extensions;
+
 namespace SolforbTest.Features
 {
     public class CreateOrderCommand : IRequest<Models.Order>
@@ -15,13 +19,20 @@ namespace SolforbTest.Features
                 this.db = db;
             }
 
-            public async Task<Order> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
+            public async Task<Models.Order> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
             {
-                await db.CreateOrderAsync(new OrderBuilder()
+                if (command.Order.Number is null)
+                    throw new RequiredFieldException();
+
+                var foundOrder = await db.GetOrderByProviderAndNumberAsync(command.Order.ProviderId, command.Order.Number);
+                if (foundOrder is not null)
+                    throw new ExistingOrderException();
+                var createdOrder = await db.CreateOrderAsync(new OrderBuilder()
                     .SetNumber(command.Order.Number)
                     .SetProviderId(command.Order.ProviderId)
                     .SetDate(command.Order.Date)
                     .Build());
+                command.Order.Id = createdOrder.Id;
                 return command.Order;
             }
         }

@@ -1,7 +1,9 @@
 ﻿using Database;
 using Database.Models;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SolforbTest.Features;
 using SolforbTest.Models;
 using System.Diagnostics;
 using System.Reflection.Metadata.Ecma335;
@@ -10,7 +12,11 @@ namespace SolforbTest.Controllers
 {
     public class CreateController : BaseController
     {
-        public CreateController(SolforbDbContext solforbDbContext) : base(solforbDbContext) { }
+        private readonly IMediator mediator;
+        public CreateController(SolforbDbContext solforbDbContext, IMediator mediator) : base(solforbDbContext) 
+        { 
+            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        }
         [Route("Order")]
         public async Task<IActionResult> Order()
         {
@@ -18,8 +24,13 @@ namespace SolforbTest.Controllers
         }
         [Route("/Order")]
         [HttpPost]
-        public async Task<IActionResult> CreateOrder(Order order)
+        public async Task<IActionResult> CreateOrder(CreateOrderCommand command)
         {
+            try
+            {
+                Models.Order order = await mediator.Send(command);
+            }
+            catch()
             //Валидация страницы создания заказа
             if (!isOrderValidate(order))
             {

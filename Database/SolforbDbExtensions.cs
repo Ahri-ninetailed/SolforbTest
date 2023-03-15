@@ -42,10 +42,11 @@ namespace Database
             solforbDbContext.Orders.Remove(order);
             await solforbDbContext.SaveChangesAsync();
         }
-        public static async Task CreateOrderAsync(this SolforbDbContext solforbDbContext, Order order)
+        public static async Task<Order> CreateOrderAsync(this SolforbDbContext solforbDbContext, Order order)
         {
             await solforbDbContext.Orders.AddAsync(order);
             await solforbDbContext.SaveChangesAsync();
+            return order;
         }
         public static async Task<Order> GetOrderByProviderAndNumberAsync(this SolforbDbContext solforbDbContext, int providerId, string orderNumber)
         {
