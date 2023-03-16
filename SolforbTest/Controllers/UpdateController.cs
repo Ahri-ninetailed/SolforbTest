@@ -7,12 +7,16 @@ namespace SolforbTest.Controllers
 {
     public class UpdateController : BaseController
     {
-        public UpdateController(SolforbDbContext solforbDbContext) : base(solforbDbContext) { }
+        private readonly IMediator mediator;
+        public UpdateController(SolforbDbContext solforbDbContext, IMediator mediator) : base(solforbDbContext) 
+        {
+            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        }
         [Route("Update/Order/{orderId}")]
         [HttpGet]
         public async Task<IActionResult> Order(int orderId)
         {
-            Order order = await solforbDbContext.GetOrderByIdAsync(orderId);
+            SolforbTest.Models.Order order = await mediator.Send(new GetOrderByIdRequest() { Id = orderId });
             return View("Order", order);
         }
         [Route("Update/Order/{orderId}")]
