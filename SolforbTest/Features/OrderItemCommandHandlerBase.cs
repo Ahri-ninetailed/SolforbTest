@@ -1,4 +1,5 @@
 ﻿using SolforbTest.Exceptions;
+using SolforbTest.Features.Requests;
 
 namespace SolforbTest.Features
 {

@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SolforbTest.Exceptions;
-using SolforbTest.Features;
+using SolforbTest.Features.Commands;
 using SolforbTest.Models;
 using System.Diagnostics;
 using System.Reflection.Metadata.Ecma335;

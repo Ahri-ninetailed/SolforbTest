@@ -3,12 +3,13 @@ using Database.Models;
 using MediatR;
 using SolforbTest.Models;
 using SolforbTest.Builders;
-namespace SolforbTest.Features
+
+namespace SolforbTest.Features.Requests
 {
-    public class GetFilteredOrdersRequest : IRequest<IEnumerable<SolforbTest.Models.Order>>
+    public class GetFilteredOrdersRequest : IRequest<IEnumerable<Models.Order>>
     {
         public FiltersModel FiltersModel { get; set; }
-        public class GetFilteredOrdersRequestHandler : IRequestHandler<GetFilteredOrdersRequest, IEnumerable<SolforbTest.Models.Order>>
+        public class GetFilteredOrdersRequestHandler : IRequestHandler<GetFilteredOrdersRequest, IEnumerable<Models.Order>>
         {
             private readonly SolforbDbContext db;
             public GetFilteredOrdersRequestHandler(SolforbDbContext db)
@@ -16,7 +17,7 @@ namespace SolforbTest.Features
                 this.db = db;
             }
 
-            public async Task<IEnumerable<SolforbTest.Models.Order>> Handle(GetFilteredOrdersRequest request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<Models.Order>> Handle(GetFilteredOrdersRequest request, CancellationToken cancellationToken)
             {
                 IEnumerable<Database.Models.Order> ordersFromDb = await db.GetOrdersAsync();
                 var filteredOrdersFromDb = ordersFromDb
@@ -27,10 +28,10 @@ namespace SolforbTest.Features
                     .OrdersByItemsQuantities(request.FiltersModel.ItemsQuantities)
                     .OrdersByItemsUnits(request.FiltersModel.ItemsUnits)
                     .OrdersByProvidersNames(request.FiltersModel.ProvidersNames, await db.GetProvidersAsync());
-                List<SolforbTest.Models.Order> solforbOrders = new List<SolforbTest.Models.Order>();
+                List<Models.Order> solforbOrders = new List<Models.Order>();
                 foreach (var order in filteredOrdersFromDb)
                 {
-                    List<SolforbTest.Models.OrderItem> solforbOrderItems = new List<SolforbTest.Models.OrderItem>();
+                    List<Models.OrderItem> solforbOrderItems = new List<Models.OrderItem>();
                     foreach (var item in order.OrderItems)
                     {
                         solforbOrderItems.Add(new OrderItemBuilder()
@@ -51,7 +52,7 @@ namespace SolforbTest.Features
                         .Build());
                 }
                 return solforbOrders;
-                    
+
             }
         }
     }

@@ -2,13 +2,14 @@
 using Database.Updaters;
 using MediatR;
 using SolforbTest.Exceptions;
+using SolforbTest.Features.Requests;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
-namespace SolforbTest.Features
+namespace SolforbTest.Features.Commands
 {
     public class UpdateOrderItemCommand : IRequest, IOrderItemRequest
     {
-        public SolforbTest.Models.OrderItem OrderItem { get; set; }
+        public Models.OrderItem OrderItem { get; set; }
         public class UpdateOrderItemCommandHandler : OrderItemCommandHandlerBase, IRequestHandler<UpdateOrderItemCommand>
         {
             private readonly SolforbDbContext db;

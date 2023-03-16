@@ -2,12 +2,12 @@
 using MediatR;
 using SolforbTest.Models;
 
-namespace SolforbTest.Features
+namespace SolforbTest.Features.Requests
 {
-    public class GetOrderItemByIdRequest : IRequest<Models.OrderItem>
+    public class GetOrderItemByIdRequest : IRequest<OrderItem>
     {
         public int Id { get; set; }
-        public class GetOrderItemByIdRequestHandler : IRequestHandler<GetOrderItemByIdRequest, Models.OrderItem>
+        public class GetOrderItemByIdRequestHandler : IRequestHandler<GetOrderItemByIdRequest, OrderItem>
         {
             private readonly SolforbDbContext db;
             public GetOrderItemByIdRequestHandler(SolforbDbContext db)

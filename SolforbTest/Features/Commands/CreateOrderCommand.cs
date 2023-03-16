@@ -6,12 +6,12 @@ using SolforbTest.Exceptions;
 using Database.Models;
 using SolforbTest.Extensions;
 
-namespace SolforbTest.Features
+namespace SolforbTest.Features.Commands
 {
     public class CreateOrderCommand : IRequest<Models.Order>
     {
         public Models.Order Order { get; set; }
-        public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Models.Order> 
+        public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Models.Order>
         {
             private readonly SolforbDbContext db;
             public CreateOrderCommandHandler(SolforbDbContext db)

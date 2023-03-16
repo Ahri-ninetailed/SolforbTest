@@ -3,7 +3,7 @@ using Database.Updaters;
 using MediatR;
 using SolforbTest.Exceptions;
 
-namespace SolforbTest.Features
+namespace SolforbTest.Features.Commands
 {
     public class UpdateOrderCommand : IRequest
     {

@@ -1,11 +1,12 @@
 ﻿using Database;
-using Database.Models;
 using Database.Updaters;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
-using SolforbTest.Features;
+using SolforbTest.Features.Requests;
 using System;
 using SolforbTest.Exceptions;
+using SolforbTest.Models;
+using SolforbTest.Features.Commands;
 
 namespace SolforbTest.Controllers
 {
@@ -20,7 +21,7 @@ namespace SolforbTest.Controllers
         [HttpGet]
         public async Task<IActionResult> Order(int orderId)
         {
-            SolforbTest.Models.Order order = await mediator.Send(new GetOrderByIdRequest() { Id = orderId });
+            Order order = await mediator.Send(new GetOrderByIdRequest() { Id = orderId });
             return View("Order", new UpdateOrderCommand() { Order = order });
         }
         [Route("Update/Order/{orderId}")]
@@ -43,7 +44,7 @@ namespace SolforbTest.Controllers
         [HttpGet]
         public async Task<IActionResult> Item(int orderItemId)
         {
-            SolforbTest.Models.OrderItem orderItem = await mediator.Send(new GetOrderItemByIdRequest() { Id = orderItemId });
+            OrderItem orderItem = await mediator.Send(new GetOrderItemByIdRequest() { Id = orderItemId });
             return View("Item", new UpdateOrderItemCommand() { OrderItem = orderItem });
         }
         [Route("Update/OrderItem/{Id}")]

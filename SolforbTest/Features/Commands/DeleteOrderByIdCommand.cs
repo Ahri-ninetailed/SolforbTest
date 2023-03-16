@@ -1,7 +1,7 @@
 ﻿using Database;
 using MediatR;
 
-namespace SolforbTest.Features
+namespace SolforbTest.Features.Commands
 {
     public class DeleteOrderByIdCommand : IRequest
     {

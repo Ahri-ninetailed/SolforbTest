@@ -2,9 +2,9 @@
 using MediatR;
 using System.Security.AccessControl;
 
-namespace SolforbTest.Features
+namespace SolforbTest.Features.Requests
 {
-    public class GetOrderIdByOrderItemIdRequest : IRequest<int> 
+    public class GetOrderIdByOrderItemIdRequest : IRequest<int>
     {
         public int OrderItemId { get; set; }
         public class GetOrderIdByOrderItemIdRequestHandler : IRequestHandler<GetOrderIdByOrderItemIdRequest, int>

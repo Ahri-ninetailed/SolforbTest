@@ -1,4 +1,4 @@
-﻿namespace SolforbTest.Features
+﻿namespace SolforbTest.Features.Requests
 {
     public interface IOrderItemRequest
     {

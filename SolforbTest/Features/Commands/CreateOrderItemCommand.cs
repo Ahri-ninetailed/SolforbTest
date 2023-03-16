@@ -2,21 +2,24 @@
 using Database.Builders;
 using MediatR;
 using SolforbTest.Exceptions;
-namespace SolforbTest.Features
+using SolforbTest.Features.Requests;
+
+namespace SolforbTest.Features.Commands
 {
     public class CreateOrderItemCommand : IRequest<Models.OrderItem>, IOrderItemRequest
     {
         private int orderId;
-        public int OrderId { 
-            get 
-            { 
+        public int OrderId
+        {
+            get
+            {
                 return orderId;
-            } 
-            set 
-            { 
+            }
+            set
+            {
                 orderId = value;
                 OrderItem.OrderId = value;
-            } 
+            }
         }
         public Models.OrderItem OrderItem { get; set; } = new Models.OrderItem();
         public class CreateOrderItemCommandHandler : OrderItemCommandHandlerBase, IRequestHandler<CreateOrderItemCommand, Models.OrderItem>

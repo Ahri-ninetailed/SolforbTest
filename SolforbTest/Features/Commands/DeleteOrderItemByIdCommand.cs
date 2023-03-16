@@ -2,7 +2,7 @@
 using MediatR;
 using System.Runtime.CompilerServices;
 
-namespace SolforbTest.Features
+namespace SolforbTest.Features.Commands
 {
     public class DeleteOrderItemByIdCommand : IRequest
     {

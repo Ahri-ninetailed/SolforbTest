@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SolforbTest.Features;
+using SolforbTest.Features.Requests;
 using SolforbTest.Models;
 using System.Diagnostics;
 

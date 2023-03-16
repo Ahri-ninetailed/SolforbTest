@@ -3,12 +3,12 @@ using MediatR;
 using SolforbTest.Builders;
 using SolforbTest.Models;
 
-namespace SolforbTest.Features
+namespace SolforbTest.Features.Requests
 {
-    public class GetOrderByIdRequest : IRequest<Models.Order>
+    public class GetOrderByIdRequest : IRequest<Order>
     {
         public int Id { get; set; }
-        public class GetOrderByIdRequestHandler : IRequestHandler<GetOrderByIdRequest, Models.Order> 
+        public class GetOrderByIdRequestHandler : IRequestHandler<GetOrderByIdRequest, Order>
         {
             private readonly SolforbDbContext db;
             public GetOrderByIdRequestHandler(SolforbDbContext db)
@@ -19,7 +19,7 @@ namespace SolforbTest.Features
             public async Task<Order> Handle(GetOrderByIdRequest request, CancellationToken cancellationToken)
             {
                 Database.Models.Order order = await db.GetOrderByIdAsync(request.Id);
-                List<SolforbTest.Models.OrderItem> solforbOrderItems = new List<OrderItem>();
+                List<OrderItem> solforbOrderItems = new List<OrderItem>();
                 foreach (var item in order.OrderItems)
                 {
                     solforbOrderItems.Add(new OrderItemBuilder()

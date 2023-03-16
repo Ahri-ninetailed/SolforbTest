@@ -2,7 +2,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using SolforbTest.Features;
+using SolforbTest.Features.Commands;
+using SolforbTest.Features.Requests;
 
 namespace SolforbTest.Controllers
 {
