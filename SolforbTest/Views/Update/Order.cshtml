@@ -1,4 +1,4 @@
-﻿@model Order
+﻿@model UpdateOrderCommand
 @inject Database.SolforbDbContext DbContext
 @{
     ViewData["Title"] = "Изменить заказ";
@@ -15,12 +15,12 @@
     <h1>Заказ</h1>
     <form asp-action="Order" asp-controller="Update" method="post" id="orderForm">
         <div class="mb-3">
-            <p>Id: @Model.Id</p>
+            <p>Id: @Model.Order.Id</p>
             
         </div>
         <div class="mb-3">
             <p>Поставщик:</p>
-            <select class="form-select" aria-label="Default select example" asp-for="ProviderId">
+            <select class="form-select" aria-label="Default select example" asp-for="@Model.Order.ProviderId">
                 @foreach (Provider provider in ViewBag.Providers)
                 {
                     <option value="@provider.Id">@provider.Name</option>
@@ -30,12 +30,12 @@
         </div>
         <div class="mb-3">
             <label class="form-label">Number</label>
-            <input type="text" class="form-control" asp-for="Number">
+            <input type="text" class="form-control" asp-for="@Model.Order.Number">
             <div class="form-text">@ViewBag.NumberLabel</div>
         </div>
         <div class="mb-3">
             <label class="form-label">Date</label>
-            <input type="date" class="form-control" asp-for="Date">
+            <input type="date" class="form-control" asp-for="@Model.Order.Date">
         </div>
         <button 
             class="btn btn-success">

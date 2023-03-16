@@ -2,6 +2,8 @@
 using Database.Models;
 using Database.Updaters;
 using Microsoft.AspNetCore.Mvc;
+using MediatR;
+using SolforbTest.Features;
 
 namespace SolforbTest.Controllers
 {
@@ -17,33 +19,23 @@ namespace SolforbTest.Controllers
         public async Task<IActionResult> Order(int orderId)
         {
             SolforbTest.Models.Order order = await mediator.Send(new GetOrderByIdRequest() { Id = orderId });
-            return View("Order", order);
+            return View("Order", new UpdateOrderCommand() { Order = order });
         }
         [Route("Update/Order/{orderId}")]
         [HttpPost]
-        public async Task<IActionResult> Order(int orderId, Order order)
+        public async Task<IActionResult> Order(int orderId, UpdateOrderCommand command)
         {
-            //валидация заказа
-            if (!isOrderValidate(order))
+            command.Order.Id = orderId;
+            try
             {
-                //метод заполняет представление ошибками валидации
-                fillOrderViewOfValidationErrors(order);
-                return View("Order", order);
+                await mediator.Send(command);
+                return Redirect($"~/Order/{orderId}");
             }
-            //проверим, не существует ли такого заказа
-            Order anotherOrder = await solforbDbContext.GetOrderByProviderAndNumberAsync(order.ProviderId, order.Number);
-            if (anotherOrder is not null && anotherOrder.Id != orderId)
+            catch (Exception ex)
             {
-                string errorMessage = "Заказ от такого поставщика уже существует";
-                ViewBag.NumberLabel = errorMessage;
-                ViewBag.ProviderLabel = errorMessage;
-                return View("Order", order);
+                fillOrderViewOfValidationErrors(ex);
+                return View("Order", command);
             }
-            //обновим заказ
-            Order foundOrder = await solforbDbContext.GetOrderByIdAsync(orderId);
-            foundOrder.UpdateOrder(order);
-            await solforbDbContext.UpdateOrderAsync(foundOrder);
-            return Redirect($"~/Order/{orderId}");
         }
         [Route("Update/OrderItem/{orderItemId}")]
         [HttpGet]
