@@ -25,9 +25,9 @@ namespace SolforbTest.Features
                 if (anotherOrder is not null && anotherOrder.Id != command.Order.Id)
                     throw new ExistingOrderException();
 
+                var order = await db.GetOrderByIdAsync(command.Order.Id);
                 //обновим заказ
-                await db.UpdateOrderAsync(new Database.Builders.OrderBuilder()
-                    .SetId(command.Order.Id)
+                await db.UpdateOrderAsync(new Database.Builders.OrderBuilder(order)
                     .SetNumber(command.Order.Number)
                     .SetProviderId(command.Order.ProviderId)
                     .SetDate(command.Order.Date)
