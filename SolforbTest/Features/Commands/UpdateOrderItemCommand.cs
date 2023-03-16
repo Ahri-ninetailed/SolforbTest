@@ -1,9 +1,7 @@
 ﻿using Database;
-using Database.Updaters;
 using MediatR;
 using SolforbTest.Exceptions;
 using SolforbTest.Features.Requests;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace SolforbTest.Features.Commands
 {

@@ -25,11 +25,6 @@ namespace SolforbTest.Controllers
                     break;
             }
         }
-        protected virtual bool isOrderValidate(Order order)
-        {
-            return (order.Number is null ? false : true);
-
-        }
         protected virtual void fillOrderItemViewOfValidationErrors(ValidationExceptions exceptions)
         {
             foreach (var exception in exceptions.ArrayOfExceptions)
@@ -50,12 +45,6 @@ namespace SolforbTest.Controllers
                         break;
                 }
             }
-        }
-        protected virtual bool isOrderItemValidate(OrderItem item)
-        {
-            if (item.Name is null || item.Unit is null || item.Quantity <= 0)
-                return false;
-            return true;
         }
     }
 }
