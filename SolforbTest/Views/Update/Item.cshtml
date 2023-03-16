@@ -1,8 +1,8 @@
-﻿@model OrderItem
+﻿@model UpdateOrderItemCommand
 @inject Database.SolforbDbContext DbContext
 @{
     ViewData["Title"] = "Обновить элемент заказа";
-    ViewBag.Order = await DbContext.GetOrderByIdAsync(Model.OrderId);
+    ViewBag.Order = await DbContext.GetOrderByIdAsync(Model.OrderItem.OrderId);
     ViewBag.Provider = await DbContext.GetProviderByIdAsync((int)ViewBag.Order.ProviderId);
 }
 <style>
@@ -28,27 +28,27 @@
     </div>
     <div class="row">
         <h4>Элемент заказа</h4>
-        <form asp-action="Item" asp-controller="Update" asp-route-Id="@Model.Id" asp-route-orderId="@ViewBag.Order.Id" method="post">
+        <form asp-action="Item" asp-controller="Update" asp-route-Id="@Model.OrderItem.Id" method="post">
             
 
             <div class="elementOrder ms-5 row">
                 <div class="col-3 mb-3">
-                    <label class="form-label">Id: @Model.Id</label>
+                    <label class="form-label">Id: @Model.OrderItem.Id</label>
                     
                 </div>
                 <div class="col-3 mb-3">
                     <label class="form-label">Name</label>
-                    <input type="text" class="form-control" asp-for=@Model.Name>
+                    <input type="text" class="form-control" asp-for=@Model.OrderItem.Name>
                     <div class="form-text">@ViewData[$"NameError"]</div>
                 </div>
                 <div class="col-3 mb-3">
                     <label class="form-label">Quantity</label>
-                    <input type="number" step="any" class="form-control" asp-for="@Model.Quantity">
+                    <input type="number" step="any" class="form-control" asp-for="@Model.OrderItem.Quantity">
                     <div class="form-text">@ViewData[$"QuantityError"]</div>
                 </div>
                 <div class="col-3 mb-3">
                     <label class="form-label">Unit</label>
-                    <input type="text" class="form-control" asp-for="@Model.Unit">
+                    <input type="text" class="form-control" asp-for="@Model.OrderItem.Unit">
                     <div class="form-text">@ViewData[$"UnitError"]</div>
                 </div>
 

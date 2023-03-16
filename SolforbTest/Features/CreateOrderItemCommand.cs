@@ -4,7 +4,7 @@ using MediatR;
 using SolforbTest.Exceptions;
 namespace SolforbTest.Features
 {
-    public class CreateOrderItemCommand : IRequest<Models.OrderItem>
+    public class CreateOrderItemCommand : IRequest<Models.OrderItem>, IOrderItemRequest
     {
         private int orderId;
         public int OrderId { 
@@ -19,7 +19,7 @@ namespace SolforbTest.Features
             } 
         }
         public Models.OrderItem OrderItem { get; set; } = new Models.OrderItem();
-        public class CreateOrderItemCommandHandler : IRequestHandler<CreateOrderItemCommand, Models.OrderItem>
+        public class CreateOrderItemCommandHandler : OrderItemCommandHandlerBase, IRequestHandler<CreateOrderItemCommand, Models.OrderItem>
         {
             private readonly SolforbDbContext db;
             public CreateOrderItemCommandHandler(SolforbDbContext db)
@@ -44,19 +44,6 @@ namespace SolforbTest.Features
                 await db.SaveChangesAsync();
                 command.OrderItem.Id = orderItem.Id;
                 return command.OrderItem;
-            }
-            private IEnumerable<Exception> fillValidationExceptionsList(CreateOrderItemCommand command)
-            {
-                List<Exception> listOfValidationExceptions = new List<Exception>();
-                if (command.OrderItem.Unit is null)
-                    listOfValidationExceptions.Add(new RequiredOrderItemUnitException());
-                if (command.OrderItem.Name is null)
-                    listOfValidationExceptions.Add(new RequiredOrderItemNameException());
-                else if (command.OrderItem.Name == command.OrderItem.OrderNumber)
-                    listOfValidationExceptions.Add(new EqualOrderNumberAndOrderItemNameException());
-                if (command.OrderItem.Quantity <= 0)
-                    listOfValidationExceptions.Add(new RequiredOrderItemQuantityException());
-                return listOfValidationExceptions;
             }
         }
     }

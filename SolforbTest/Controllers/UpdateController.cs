@@ -4,6 +4,8 @@ using Database.Updaters;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using SolforbTest.Features;
+using System;
+using SolforbTest.Exceptions;
 
 namespace SolforbTest.Controllers
 {
@@ -41,30 +43,25 @@ namespace SolforbTest.Controllers
         [HttpGet]
         public async Task<IActionResult> Item(int orderItemId)
         {
-            OrderItem orderItem = await solforbDbContext.GetOrderItemByIdAsync(orderItemId);
-            return View("Item", orderItem);
+            SolforbTest.Models.OrderItem orderItem = await mediator.Send(new GetOrderItemByIdRequest() { Id = orderItemId });
+            return View("Item", new UpdateOrderItemCommand() { OrderItem = orderItem });
         }
         [Route("Update/OrderItem/{Id}")]
         [HttpPost]
-        public async Task<IActionResult> Item(OrderItem orderItem)
+        public async Task<IActionResult> Item(int id, UpdateOrderItemCommand command)
         {
-            if (!isOrderItemValidate(orderItem))
+            command.OrderItem.Id = id;
+            command.OrderItem.OrderId = await mediator.Send(new GetOrderIdByOrderItemIdRequest() { OrderItemId = id });
+            try
             {
-                fillOrderItemViewOfValidationErrors(orderItem);
-                return View("Item", orderItem);
+                await mediator.Send(command);
+                return Redirect($"~/Order/{command.OrderItem.OrderId}");
             }
-            orderItem.OrderId = await solforbDbContext.GetOrderIdByOrderItemId(orderItem.Id);
-            Order order = await solforbDbContext.GetOrderByIdAsync(orderItem.OrderId);
-            if (order.Number == orderItem.Name)
+            catch (ValidationExceptions exceptions)
             {
-                string errorMessage = "Название позиции не может совпадать с номером заказа";
-                ViewBag.NameError = errorMessage;
-                return View("Item", orderItem);
+                fillOrderItemViewOfValidationErrors(exceptions);
+                return View("Item", command);
             }
-            OrderItem foundOrderItem = await solforbDbContext.GetOrderItemByIdAsync(orderItem.Id);
-            foundOrderItem.UpdateOrderItem(orderItem);
-            await solforbDbContext.UpdateOrderItemAsync(foundOrderItem);
-            return Redirect($"~/Order/{foundOrderItem.OrderId}");
         }
     }
 }
